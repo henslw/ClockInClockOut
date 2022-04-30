@@ -18,10 +18,19 @@ namespace ClockInClockOut.Data
                 new Employee { IdNumber = 1234, FirstName = "Max", LastName = "Samuel", IsClockedIN = false }
 
                 );
-            
+
+            modelBuilder.Entity<Record>().HasData(
+                new Record { IdNumber = 1995, ClockInTime= DateTime.Now, ClockOutTime= DateTime.Now,TotalHoursWorked =0.0},
+                new Record { IdNumber = 2020, ClockInTime = DateTime.Now, ClockOutTime = DateTime.Now, TotalHoursWorked = 0.0 },
+                new Record { IdNumber = 1234, ClockInTime = DateTime.Now, ClockOutTime = DateTime.Now, TotalHoursWorked = 0.0 }
+
+                );
+
+
         }
 
 
         public DbSet<Employee> Employees => Set<Employee>();
+        public DbSet<Record> Records => Set<Record>();
     }
 }

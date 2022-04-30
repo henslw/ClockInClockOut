@@ -50,7 +50,11 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        if(idNumber != null)
+        if(idNumber == null)
+        {
+            //do nothing
+        }
+        else
         {
             employee = await EmployeeService.GetEmployee((int)idNumber);
         }
