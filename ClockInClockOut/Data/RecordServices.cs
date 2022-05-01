@@ -23,7 +23,7 @@ namespace ClockInClockOut.Data
             {
                 _context.Records.Add(record);
                 await _context.SaveChangesAsync();
-                _navigationManager.NavigateTo("Employees");
+                _navigationManager.NavigateTo("Records");
             }
 
             public async Task DeleteRecord(int Id)
@@ -56,6 +56,7 @@ namespace ClockInClockOut.Data
                 if (dbRecord == null)
                     throw new Exception("Record not found.");
             dbRecord.IdNumber = record.IdNumber;
+            dbRecord.EmployeeName=record.EmployeeName;
             dbRecord.ClockInTime = record.ClockInTime;
             dbRecord.ClockOutTime = record.ClockOutTime;
             dbRecord.TotalHoursWorked = record.TotalHoursWorked;

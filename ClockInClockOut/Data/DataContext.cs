@@ -20,9 +20,9 @@ namespace ClockInClockOut.Data
                 );
 
             modelBuilder.Entity<Record>().HasData(
-                new Record { IdNumber = 1995, ClockInTime= DateTime.Now, ClockOutTime= DateTime.Now,TotalHoursWorked =0.0},
-                new Record { IdNumber = 2020, ClockInTime = DateTime.Now, ClockOutTime = DateTime.Now, TotalHoursWorked = 0.0 },
-                new Record { IdNumber = 1234, ClockInTime = DateTime.Now, ClockOutTime = DateTime.Now, TotalHoursWorked = 0.0 }
+                new Record { IdNumber = 1995, EmployeeName ="Hensley Wint", ClockInTime= DateTime.MinValue, ClockOutTime= DateTime.MinValue, TotalHoursWorked =0.0},
+                new Record { IdNumber = 2020, EmployeeName = "Jason Choi", ClockInTime = DateTime.MinValue, ClockOutTime = DateTime.MinValue, TotalHoursWorked = 0.0 },
+                new Record { IdNumber = 1234, EmployeeName ="Max Samuel" , ClockInTime = DateTime.MinValue, ClockOutTime = DateTime.MinValue, TotalHoursWorked = 0.0 }
 
                 );
 
