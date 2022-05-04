@@ -83,6 +83,10 @@ namespace ClockInClockOut.Migrations
                     b.Property<DateTime>("ClockOutTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("EmployeeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("TotalHoursWorked")
                         .HasColumnType("float");
 
@@ -94,22 +98,25 @@ namespace ClockInClockOut.Migrations
                         new
                         {
                             IdNumber = 1995,
-                            ClockInTime = new DateTime(2022, 4, 29, 18, 36, 39, 602, DateTimeKind.Local).AddTicks(9681),
-                            ClockOutTime = new DateTime(2022, 4, 29, 18, 36, 39, 602, DateTimeKind.Local).AddTicks(9718),
+                            ClockInTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ClockOutTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployeeName = "Hensley Wint",
                             TotalHoursWorked = 0.0
                         },
                         new
                         {
                             IdNumber = 2020,
-                            ClockInTime = new DateTime(2022, 4, 29, 18, 36, 39, 602, DateTimeKind.Local).AddTicks(9721),
-                            ClockOutTime = new DateTime(2022, 4, 29, 18, 36, 39, 602, DateTimeKind.Local).AddTicks(9722),
+                            ClockInTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ClockOutTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployeeName = "Jason Choi",
                             TotalHoursWorked = 0.0
                         },
                         new
                         {
                             IdNumber = 1234,
-                            ClockInTime = new DateTime(2022, 4, 29, 18, 36, 39, 602, DateTimeKind.Local).AddTicks(9724),
-                            ClockOutTime = new DateTime(2022, 4, 29, 18, 36, 39, 602, DateTimeKind.Local).AddTicks(9726),
+                            ClockInTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ClockOutTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployeeName = "Max Samuel",
                             TotalHoursWorked = 0.0
                         });
                 });
