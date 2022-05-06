@@ -1,0 +1,96 @@
+﻿@page "/RecordsCRUD"
+@page "/RecordsCRUD/{IdNumber:int}"
+
+@inject IRecordServices RecordServices
+
+@if(idNumber == null){
+    <h3>Create a new Record</h3>
+}
+else
+{
+    <h3>Edit "@record.EmployeeName"</h3>
+}
+
+<EditForm Model="record" OnSubmit="HandleSubmit">
+    <div>
+        <label for="IdNumber">Id Number</label>
+        <InputNumber id="IdNumber" @bind-Value="record.IdNumber" class="form-control"></InputNumber>
+    </div>
+    <div>
+        <label for="EmployeeName">Employee Name</label>
+        <InputText id="EmployeeName" @bind-Value="record.EmployeeName" class="form-control"></InputText>
+    </div>
+    
+    <div>
+        <label for="ClockInTime">Clock In Time</label>
+        <InputDate id="ClockInTime" @bind-Value="record.ClockInTime" class="form-control"></InputDate>
+
+    </div>
+    <div>
+        <label for="ClockOutTime">Clock Out Time</label>
+        <InputDate id="ClockOutTime" @bind-Value="record.ClockOutTime" class="form-control"></InputDate>
+        
+    </div>
+    <div>
+        <label for="TotalHoursWorked">Total Hours Worked</label>
+        <InputNumber id="TotalHoursWorked" @bind-Value="record.TotalHoursWorked" class="form-control"></InputNumber>
+
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">@btnText</button>
+    @if (idNumber != null)
+    {
+        <button type="button" class="btn btn-danger" @onclick = "DeleteRecord">Delete Record</button>
+    }
+</EditForm>
+
+
+
+@code {
+    [Parameter]
+    public int? idNumber{ get; set;}
+
+    string btnText = string.Empty;
+
+    Record record = new Record();
+
+    protected override void OnInitialized()
+    {
+        btnText = idNumber == null ? "Save new Record" : "Update Record";
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(idNumber == null)
+        {
+            //do nothing
+        }
+        else
+        {
+            record = await RecordServices.GetRecord((int)idNumber);
+        }
+
+    }
+
+    async Task HandleSubmit()
+    {
+        if(idNumber == null)
+        {
+            await RecordServices.CreateRecord(record);
+        }
+        else
+        {
+            await RecordServices.UpdateRecord(record, (int)idNumber);
+        }
+    }
+
+    async Task DeleteRecord()
+    {
+        await RecordServices.DeleteRecord(record.IdNumber);
+    }
+
+}
+
+@code {
+
+}

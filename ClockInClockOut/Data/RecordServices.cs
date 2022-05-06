@@ -4,7 +4,7 @@ namespace ClockInClockOut.Data
 {
 
 
-        public class RecordServices
+        public class RecordServices : IRecordServices
         {
 
             private readonly DataContext _context;
