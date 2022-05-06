@@ -1,7 +1,14 @@
 ﻿@page "/Records"
 @inject IRecordServices RecordServices
 @inject NavigationManager NavigationManager
+
+
+
 <h3>Records</h3>
+
+
+    
+
 <table class="table">
         <thead>
             <tr>
@@ -25,7 +32,7 @@
                 <td>@record.ClockOutTime</td>
                 <td>@record.TotalHoursWorked</td>
                 <td>
-                    <button class="btn btn-primary" @onclick ="(()=> ShowRecord(record.IdNumber))" >
+                    <button class="btn btn-primary" @onclick ="(()=> ShowRecord(record.ItemNumber))" >
                         <i class="oi oi-pencil"></i>
 
                     </button>
@@ -41,9 +48,9 @@
         await RecordServices.LoadRecord();
     }
 
-    void ShowRecord(int IdNumber)
+    void ShowRecord(int ItemNumber)
     {
-        NavigationManager.NavigateTo($"RecordsCRUD/{IdNumber}");
+        NavigationManager.NavigateTo($"RecordsCRUD/{ItemNumber}");
 
     }
     void CreateNewRecord()

@@ -26,9 +26,9 @@ namespace ClockInClockOut.Data
                 _navigationManager.NavigateTo("Records");
             }
 
-            public async Task DeleteRecord(int Id)
+            public async Task DeleteRecord(int ItemNumber)
             {
-                var record = await _context.Records.FindAsync(Id);
+                var record = await _context.Records.FindAsync(ItemNumber);
                 if (record == null)
                     throw new Exception("Record not found.");
 
@@ -37,9 +37,9 @@ namespace ClockInClockOut.Data
                 _navigationManager.NavigateTo("Records");
             }
 
-            public async Task<Record> GetRecord(int Id)
+            public async Task<Record> GetRecord(int ItemNumber)
             {
-                var record = await _context.Records.FindAsync(Id);
+                var record = await _context.Records.FindAsync(ItemNumber);
                 if (record == null)
                     throw new Exception("record not found.");
                 return record;
@@ -50,9 +50,9 @@ namespace ClockInClockOut.Data
             Records = await _context.Records.ToListAsync();
             }
 
-            public async Task UpdateRecord(Record record, int Id)
+            public async Task UpdateRecord(Record record, int ItemNumber)
             {
-                var dbRecord = await _context.Records.FindAsync(Id);
+                var dbRecord = await _context.Records.FindAsync(ItemNumber);
                 if (dbRecord == null)
                     throw new Exception("Record not found.");
             dbRecord.IdNumber = record.IdNumber;

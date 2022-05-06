@@ -1,15 +1,16 @@
 ﻿@page "/RecordsCRUD"
-@page "/RecordsCRUD/{IdNumber:int}"
+@page "/RecordsCRUD/{ItemNumber:int}"
 
 @inject IRecordServices RecordServices
 
-@if(idNumber == null){
+@if(itemNumber == null){
     <h3>Create a new Record</h3>
 }
 else
 {
     <h3>Edit "@record.EmployeeName"</h3>
 }
+
 
 <EditForm Model="record" OnSubmit="HandleSubmit">
     <div>
@@ -20,15 +21,15 @@ else
         <label for="EmployeeName">Employee Name</label>
         <InputText id="EmployeeName" @bind-Value="record.EmployeeName" class="form-control"></InputText>
     </div>
-    
+
     <div>
         <label for="ClockInTime">Clock In Time</label>
-        <InputDate id="ClockInTime" @bind-Value="record.ClockInTime" class="form-control"></InputDate>
-
+        <InputDateTime id="ClockInTime" @bind-Value="record.ClockInTime" class="form-control"></InputDateTime>
     </div>
+
     <div>
         <label for="ClockOutTime">Clock Out Time</label>
-        <InputDate id="ClockOutTime" @bind-Value="record.ClockOutTime" class="form-control"></InputDate>
+        <InputDateTime id="ClockOutTime" @bind-Value="record.ClockOutTime" class="form-control"></InputDateTime>
         
     </div>
     <div>
@@ -38,7 +39,7 @@ else
     </div>
     <br />
     <button type="submit" class="btn btn-primary">@btnText</button>
-    @if (idNumber != null)
+    @if (itemNumber != null)
     {
         <button type="button" class="btn btn-danger" @onclick = "DeleteRecord">Delete Record</button>
     }
@@ -48,7 +49,7 @@ else
 
 @code {
     [Parameter]
-    public int? idNumber{ get; set;}
+    public int? itemNumber{ get; set;}
 
     string btnText = string.Empty;
 
@@ -56,37 +57,37 @@ else
 
     protected override void OnInitialized()
     {
-        btnText = idNumber == null ? "Save new Record" : "Update Record";
+        btnText = itemNumber == null ? "Save new Record" : "Update Record";
     }
 
     protected override async Task OnParametersSetAsync()
     {
-        if(idNumber == null)
+        if(itemNumber == null)
         {
             //do nothing
         }
         else
         {
-            record = await RecordServices.GetRecord((int)idNumber);
+            record = await RecordServices.GetRecord((int)itemNumber);
         }
 
     }
 
     async Task HandleSubmit()
     {
-        if(idNumber == null)
+        if(itemNumber == null)
         {
             await RecordServices.CreateRecord(record);
         }
         else
         {
-            await RecordServices.UpdateRecord(record, (int)idNumber);
+            await RecordServices.UpdateRecord(record, (int)itemNumber);
         }
     }
 
     async Task DeleteRecord()
     {
-        await RecordServices.DeleteRecord(record.IdNumber);
+        await RecordServices.DeleteRecord(record.ItemNumber);
     }
 
 }

@@ -6,7 +6,7 @@
         Task LoadRecord();
         Task<Record> GetRecord(int IdNumber);
         Task CreateRecord(Record Record);
-        Task UpdateRecord(Record Record, int IdNumber);
-        Task DeleteRecord(int IdNumber);
+        Task UpdateRecord(Record Record, int ItemNumber);
+        Task DeleteRecord(int ItemNumber);
     }
 }
