@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using System;
+using System.Threading.Tasks;
 
 namespace Clock.Services;
 
@@ -33,7 +35,7 @@ public class EmailSender : IEmailSender
         var client = new SendGridClient(apiKey);
         var msg = new SendGridMessage()
         {
-            From = new EmailAddress("hgchoi1116@gmail.com", "Password Recovery"),
+            From = new EmailAddress("hgchoi1116@gmail.com", "Jason Choi"),
             Subject = subject,
             PlainTextContent = message,
             HtmlContent = message
