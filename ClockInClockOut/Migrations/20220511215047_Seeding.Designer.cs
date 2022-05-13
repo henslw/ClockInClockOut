@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClockInClockOut.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220506052156_MyMigration")]
-    partial class MyMigration
+    [Migration("20220511215047_Seeding")]
+    partial class Seeding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
