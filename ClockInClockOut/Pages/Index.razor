@@ -39,20 +39,16 @@
         var employee = await EmployeeService.GetEmployee((int)idNumber);
         if (employee.IsClockedIN == false)
         {
-
-
-            int RecordID = employee.IdNumber;
-
             //Record record = new Record();
-            record.IdNumber = RecordID;
+            record.IdNumber = employee.IdNumber;
             record.EmployeeName = employee.FirstName + " " + employee.LastName;
             record.ClockInTime = DateTime.Now;
 
             employee.IsClockedIN = true;
 
 
-            await RecordServices.CreateRecord(record);
-            await EmployeeService.UpdateEmployee(employee,employee.IdNumber);
+            await RecordServices.CreateRecord2(record);
+            await EmployeeService.UpdateEmployee2(employee,employee.IdNumber);
         }
         else if (employee.IsClockedIN == true)
         {
@@ -64,7 +60,7 @@
     async Task ClockOUTRecored(Employee employee) {
 
         foreach (var record in RecordServices.Records){
-            if (record.ClockInTime.Date == DateTime.Today && record.IdNumber == employee.IdNumber)
+            if (record.ClockInTime.Date == DateTime.Today.Date && record.IdNumber == employee.IdNumber)
             {
 
                 //int RecordID = employee.IdNumber;
@@ -74,13 +70,13 @@
                 record1.ClockOutTime = DateTime.Now;
                 int ItemNum = record1.ItemNumber;
 
-                TimeSpan diff = record1.ClockInTime - record1.ClockOutTime;
+                TimeSpan diff = record1.ClockOutTime - record1.ClockInTime;
                 double hours = diff.TotalHours;
                 record.TotalHoursWorked = hours;
                 employee.IsClockedIN = false;
 
-                await EmployeeService.UpdateEmployee(employee, employee.IdNumber);
-                await RecordServices.UpdateRecord(record1, ItemNum);
+                await EmployeeService.UpdateEmployee2(employee, employee.IdNumber);
+                await RecordServices.UpdateRecord2(record1, ItemNum);
             }
             else{}
         }

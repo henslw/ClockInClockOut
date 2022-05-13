@@ -61,5 +61,18 @@ namespace ClockInClockOut.Data
             await _context.SaveChangesAsync();
             _navigationManager.NavigateTo("Employees");
         }
+
+        public async Task UpdateEmployee2(Employee employee, int Id)
+        {
+            var dbEmployee = await _context.Employees.FindAsync(Id);
+            if (dbEmployee == null)
+                throw new Exception("Employee not found.");
+            dbEmployee.IdNumber = employee.IdNumber;
+            dbEmployee.FirstName = employee.FirstName;
+            dbEmployee.LastName = employee.LastName;
+            dbEmployee.IsClockedIN = employee.IsClockedIN;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }
