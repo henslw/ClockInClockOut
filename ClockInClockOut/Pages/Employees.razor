@@ -1,0 +1,54 @@
+﻿@page "/Employees"
+@attribute [Authorize]
+@inject IEmployeeServices EmployeeService
+@inject NavigationManager NavigationManager
+<h3>Employees</h3>
+<table class="table">
+        <thead>
+            <tr>
+                <th>ID Number</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Clocked In</th>
+
+            </tr>
+
+
+        </thead>
+
+        <tbody>
+        @foreach (var employee in EmployeeService.Employees)
+        {
+            <tr>
+                <td>@employee.IdNumber</td>
+                <td>@employee.FirstName</td>
+                <td>@employee.LastName</td>
+                <td>@employee.IsClockedIN</td>
+                <td>
+                    <button class="btn btn-primary" @onclick ="(()=> ShowEmployee(employee.IdNumber))" >
+                        <i class="oi oi-pencil"></i>
+
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+</table>  
+<button class="btn btn-primary"@onclick="CreateNewEmployee">Create New Employee</button>
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await EmployeeService.LoadEmployees();
+    }
+
+    void ShowEmployee(int IdNumber)
+    {
+        NavigationManager.NavigateTo($"EmployeesCRUD/{IdNumber}");
+
+    }
+    void CreateNewEmployee()
+    {
+        NavigationManager.NavigateTo("EmployeesCRUD");
+    }
+
+}

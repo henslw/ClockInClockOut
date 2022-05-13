@@ -1,0 +1,61 @@
+﻿@page "/Records"
+@inject IRecordServices RecordServices
+@inject NavigationManager NavigationManager
+
+
+
+<h3>Records</h3>
+
+
+    
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>ID Number</th>
+                <th>Employee Name</th>
+                <th>Clock In Time</th>
+                <th>Clock OUT Time</th>
+                <th>Hours Worked</th>
+            </tr>
+
+
+        </thead>
+
+        <tbody>
+        @foreach (var record in RecordServices.Records)
+        {
+            <tr>
+                <td>@record.IdNumber</td>
+                <td>@record.EmployeeName</td>
+                <td>@record.ClockInTime</td>
+                <td>@record.ClockOutTime</td>
+                <td>@record.TotalHoursWorked</td>
+                <td>
+                    <button class="btn btn-primary" @onclick ="(()=> ShowRecord(record.ItemNumber))" >
+                        <i class="oi oi-pencil"></i>
+
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+</table>  
+<button class="btn btn-primary"@onclick="CreateNewRecord">Create New Record</button>
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await RecordServices.LoadRecord();
+    }
+
+    void ShowRecord(int ItemNumber)
+    {
+        NavigationManager.NavigateTo($"RecordsCRUD/{ItemNumber}");
+
+    }
+    void CreateNewRecord()
+    {
+        NavigationManager.NavigateTo("RecordsCRUD");
+    }
+
+}
