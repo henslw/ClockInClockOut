@@ -13,9 +13,9 @@ namespace ClockInClockOut.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Employee>().HasData(
-                new Employee { IdNumber = 1995, FirstName ="Hensley", LastName ="Wint", IsClockedIN = false },
-                new Employee { IdNumber = 2020, FirstName = "Jason", LastName = "Choi", IsClockedIN = false },
-                new Employee { IdNumber = 1234, FirstName = "Max", LastName = "Samuel", IsClockedIN = false }
+                new Employee { IdNumber = 1995, FirstName ="Hensley", LastName ="Wint", IsClockedIn = false },
+                new Employee { IdNumber = 2020, FirstName = "Jason", LastName = "Choi", IsClockedIn = false },
+                new Employee { IdNumber = 1234, FirstName = "Max", LastName = "Samuel", IsClockedIn = false }
 
                 );
 

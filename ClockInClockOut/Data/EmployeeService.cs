@@ -56,7 +56,7 @@ namespace ClockInClockOut.Data
             dbEmployee.IdNumber = employee.IdNumber;
             dbEmployee.FirstName= employee.FirstName;
             dbEmployee.LastName= employee.LastName;
-            dbEmployee.IsClockedIN = employee.IsClockedIN;
+            dbEmployee.IsClockedIn = employee.IsClockedIn;
 
             await _context.SaveChangesAsync();
             _navigationManager.NavigateTo("Employees");
@@ -70,7 +70,7 @@ namespace ClockInClockOut.Data
             dbEmployee.IdNumber = employee.IdNumber;
             dbEmployee.FirstName = employee.FirstName;
             dbEmployee.LastName = employee.LastName;
-            dbEmployee.IsClockedIN = employee.IsClockedIN;
+            dbEmployee.IsClockedIn = employee.IsClockedIn;
 
             await _context.SaveChangesAsync();
         }

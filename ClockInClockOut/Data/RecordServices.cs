@@ -23,6 +23,10 @@ namespace ClockInClockOut.Data
             {
                 _context.Records.Add(record);
                 await _context.SaveChangesAsync();
+                TimeSpan diff = record.ClockOutTime - record.ClockInTime;
+                double hours = diff.TotalHours;
+                record.TotalHoursWorked = hours;
+                await _context.SaveChangesAsync();
                 _navigationManager.NavigateTo("Records");
             }
             // used for clock in to create record

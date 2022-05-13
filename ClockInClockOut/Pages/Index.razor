@@ -4,13 +4,13 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world! </h1>
+<h1> Clock In/Out Application</h1>
 
 
 <EditForm Model="employee" OnSubmit="HandleSubmit">
     <div>
         <label for="IdNumber">Id Number</label>
-        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="form-control"></InputNumber>
+        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="form-control" style="width: 200px;" maxlength = "10"></InputNumber>
     </div>
 
 <button type="submit" class="btn btn-primary">Clock in/Clock out</button>
@@ -24,43 +24,43 @@
 
     async Task HandleSubmit()
     {
-
-        await ClockInRecored(employee.IdNumber);
-
+        await ClockInRecord(employee.IdNumber);
+        this.employee.IdNumber = 0;
+        
     }
 
     Employee employee = new Employee();
 
     Record record = new Record();
 
-    async Task ClockInRecored(int idNumber)
+    async Task ClockInRecord(int idNumber)
     {
 
         var employee = await EmployeeService.GetEmployee((int)idNumber);
-        if (employee.IsClockedIN == false)
+        if (employee.IsClockedIn == false)
         {
             //Record record = new Record();
             record.IdNumber = employee.IdNumber;
             record.EmployeeName = employee.FirstName + " " + employee.LastName;
             record.ClockInTime = DateTime.Now;
-
-            employee.IsClockedIN = true;
+           
+            employee.IsClockedIn = true;
 
 
             await RecordServices.CreateRecord2(record);
             await EmployeeService.UpdateEmployee2(employee,employee.IdNumber);
         }
-        else if (employee.IsClockedIN == true)
+        else if (employee.IsClockedIn == true)
         {
             
-            await ClockOUTRecored(employee);
+            await ClockOutRecord(employee);
         }
     }
 
-    async Task ClockOUTRecored(Employee employee) {
+    async Task ClockOutRecord(Employee employee) {
 
         foreach (var record in RecordServices.Records){
-            if (record.ClockInTime.Date == DateTime.Today.Date && record.IdNumber == employee.IdNumber)
+            if (record.ClockInTime.Date == DateTime.Today.Date && record.IdNumber == employee.IdNumber && record.ClockOutTime == DateTime.MinValue)
             {
 
                 //int RecordID = employee.IdNumber;
@@ -73,7 +73,7 @@
                 TimeSpan diff = record1.ClockOutTime - record1.ClockInTime;
                 double hours = diff.TotalHours;
                 record.TotalHoursWorked = hours;
-                employee.IsClockedIN = false;
+                employee.IsClockedIn = false;
 
                 await EmployeeService.UpdateEmployee2(employee, employee.IdNumber);
                 await RecordServices.UpdateRecord2(record1, ItemNum);
@@ -85,9 +85,5 @@
 
         
     }
-
-    }
-
-        }
 
     }

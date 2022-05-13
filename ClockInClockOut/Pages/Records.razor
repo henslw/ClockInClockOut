@@ -16,7 +16,7 @@
                 <th>ID Number</th>
                 <th>Employee Name</th>
                 <th>Clock In Time</th>
-                <th>Clock OUT Time</th>
+                <th>Clock Out Time</th>
                 <th>Hours Worked</th>
             </tr>
 
@@ -31,7 +31,7 @@
                 <td>@record.EmployeeName</td>
                 <td>@record.ClockInTime</td>
                 <td>@record.ClockOutTime</td>
-                <td>@record.TotalHoursWorked</td>
+                <td>@Math.Round(record.TotalHoursWorked,2)</td>
                 <td>
                     <button class="btn btn-primary" @onclick ="(()=> ShowRecord(record.ItemNumber))" >
                         <i class="oi oi-pencil"></i>

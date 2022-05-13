@@ -30,12 +30,6 @@ else
     <div>
         <label for="ClockOutTime">Clock Out Time</label>
         <InputDateTime id="ClockOutTime" @bind-Value="record.ClockOutTime" class="form-control"></InputDateTime>
-        
-    </div>
-    <div>
-        <label for="TotalHoursWorked">Total Hours Worked</label>
-        <InputNumber id="TotalHoursWorked" @bind-Value="record.TotalHoursWorked" class="form-control"></InputNumber>
-
     </div>
     <br />
     <button type="submit" class="btn btn-primary">@btnText</button>
@@ -50,6 +44,7 @@ else
 @code {
     [Parameter]
     public int? itemNumber{ get; set;}
+    protected double hoursWorked { get; set; }
 
     string btnText = string.Empty;
 
