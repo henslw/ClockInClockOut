@@ -6,6 +6,9 @@ namespace ClockInClockOut.Data
     public class Record
     {
         [Key]
+        public int ItemNumber { get; set; }
+        
+
         public int IdNumber { get; set; }
         public string EmployeeName { get; set; }=String.Empty;
         public DateTime ClockInTime { get; set; }

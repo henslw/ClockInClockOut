@@ -4,6 +4,7 @@ using ClockInClockOut.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClockInClockOut.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220511215028_MyMigration")]
+    partial class MyMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,11 +73,11 @@ namespace ClockInClockOut.Migrations
 
             modelBuilder.Entity("ClockInClockOut.Data.Record", b =>
                 {
-                    b.Property<int>("IdNumber")
+                    b.Property<int>("ItemNumber")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdNumber"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemNumber"), 1L, 1);
 
                     b.Property<DateTime>("ClockInTime")
                         .HasColumnType("datetime2");
@@ -87,36 +89,42 @@ namespace ClockInClockOut.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("IdNumber")
+                        .HasColumnType("int");
+
                     b.Property<double>("TotalHoursWorked")
                         .HasColumnType("float");
 
-                    b.HasKey("IdNumber");
+                    b.HasKey("ItemNumber");
 
                     b.ToTable("Records");
 
                     b.HasData(
                         new
                         {
-                            IdNumber = 1995,
+                            ItemNumber = 1,
                             ClockInTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ClockOutTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EmployeeName = "Hensley Wint",
+                            IdNumber = 1995,
                             TotalHoursWorked = 0.0
                         },
                         new
                         {
-                            IdNumber = 2020,
+                            ItemNumber = 2,
                             ClockInTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ClockOutTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EmployeeName = "Jason Choi",
+                            IdNumber = 2020,
                             TotalHoursWorked = 0.0
                         },
                         new
                         {
-                            IdNumber = 1234,
+                            ItemNumber = 3,
                             ClockInTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ClockOutTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EmployeeName = "Max Samuel",
+                            IdNumber = 1234,
                             TotalHoursWorked = 0.0
                         });
                 });
