@@ -17,9 +17,6 @@
 
 </EditForm>
 
-Welcome to your new app.
-Make a change.
-
 @code{
     //[Parameter]
     // public int? idNumber{ get; set;}
@@ -28,17 +25,15 @@ Make a change.
     async Task HandleSubmit()
     {
 
-        await ClockinRecored(employee.IdNumber);
+        await ClockInRecored(employee.IdNumber);
 
     }
-
-
 
     Employee employee = new Employee();
 
     Record record = new Record();
 
-    async Task ClockinRecored(int idNumber)
+    async Task ClockInRecored(int idNumber)
     {
 
         var employee = await EmployeeService.GetEmployee((int)idNumber);
