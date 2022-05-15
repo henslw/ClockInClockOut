@@ -5,29 +5,87 @@
 <PageTitle>Index</PageTitle>
 
 <h1> Clock In/Out Application</h1>
+<style>
+.alert {
+  padding: 20px;
+  background-color: #f44336; /* Red */
+  color: white;
+  margin-bottom: 15px;
+  width: 20%;
+}
 
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+
+.closebtn:hover {
+  color: black;
+}
+</style>
 
 <EditForm Model="employee" OnSubmit="HandleSubmit">
     <div>
         <label for="IdNumber">Id Number</label>
-        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="form-control" style="width: 200px;" maxlength = "10"></InputNumber>
+        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="form-control" style="width: 150px;" maxlength = "10"></InputNumber>
     </div>
+    
 
-<button type="submit" class="btn btn-primary">Clock in/Clock out</button>
-
+    
+    <button type="submit" class="btn btn-primary">Clock in/Clock out</button>
 </EditForm>
+<br />
 
+@if (ShowAlert == true)
+{
+    
+    <div class="alert">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  Employee ID not Found.
+</div>
+}
 @code{
     //[Parameter]
     // public int? idNumber{ get; set;}
 
 
+    bool IdFound = false;
+    bool LoopDone = false;
+    bool ShowAlert = false;
     async Task HandleSubmit()
     {
-        await ClockInRecord(employee.IdNumber);
+
+
+        foreach (var employee2 in EmployeeService.Employees)
+        {
+            
+            if(employee2.IdNumber == employee.IdNumber)
+            {
+                await ClockInRecord(employee.IdNumber);
+                IdFound =true;
+                
+            }
+            
+        } 
+        LoopDone = true;
+        if(LoopDone == true && IdFound ==! true)
+        {
+            ShowAlert =true;
+        }
+
         this.employee.IdNumber = 0;
         
+        
     }
+    Employee employee2 = new Employee();
 
     Employee employee = new Employee();
 

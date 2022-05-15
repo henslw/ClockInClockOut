@@ -12,9 +12,13 @@ else
 }
 
 <EditForm Model="employee" OnSubmit="HandleSubmit">
+ <DataAnnotationsValidator />
+   <ValidationSummary />
+
     <div>
         <label for="IdNumber">Id Number</label>
         <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="form-control"></InputNumber>
+    <ValidationMessage For="@(() => employee.IdNumber)" />
     </div>
     <div>
         <label for="FirstName">First Name</label>

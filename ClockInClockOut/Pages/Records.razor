@@ -1,5 +1,5 @@
 ﻿@page "/Records"
-@attribute [Authorize]
+
 @inject IRecordServices RecordServices
 @inject NavigationManager NavigationManager
 
@@ -8,8 +8,16 @@
 <h3>Records</h3>
 
 
-    
-
+    <EditForm Model="FirstDateRange" OnSubmit="HandleSubmit">
+<div>
+        <label for="FirstDateRange">Records Date From:</label>
+        <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="form-control"></InputDate>
+    </div>
+    <div>
+        <label for="SecondDateRange">Records Date To:</label>
+        <InputDate id="SecondDateRange" @bind-Value="SecondDateRange" class="form-control"></InputDate>
+    </div>
+    </EditForm>
 <table class="table">
         <thead>
             <tr>
@@ -24,10 +32,12 @@
         </thead>
 
         <tbody>
+        
         @foreach (var record in RecordServices.Records)
         {
-            <tr>
-                <td>@record.IdNumber</td>
+            @if (FirstDateRange <= record.ClockInTime && SecondDateRange >= record.ClockInTime) {
+                <tr>
+                    <td>@record.IdNumber</td>
                 <td>@record.EmployeeName</td>
                 <td>@record.ClockInTime</td>
                 <td>@record.ClockOutTime</td>
@@ -38,11 +48,21 @@
                     </button>
                 </td>
             </tr>
+            }
         }
         </tbody>
 </table>  
 <button class="btn btn-primary"@onclick="CreateNewRecord">Create New Record</button>
 @code {
+    DateTime FirstDateRange = DateTime.Today.Date;
+    DateTime SecondDateRange = DateTime.Today.Date;
+     async Task HandleSubmit()
+    {
+         
+    }
+
+
+
     protected override async Task OnInitializedAsync()
     {
         await RecordServices.LoadRecord();
