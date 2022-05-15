@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Add icon library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+
+.label {
+  display: block;
+  float: left;
+  font: 1rem 'Fira Sans', sans-serif;
+
+}
+
+input,
+.label {
+  margin: 20px 10px;
+  width: 50%;
+  border: 3px solid black;
+  padding: 20px;
+  display: inline-block;
+  border-radius: 25px;
+  font-size: 16px;
+  width: 15%;          /* Font size of date */
+  position: relative;
+  text-align: center;
+
+}
+
+
+.label:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+  background-color: RoyalBlue;
+  border: 2px solid #008CBA
+}
+
+
+.header{
+padding: 12px;
+text-align: center;
+font-family: Arial;
+font-size: 12px;
+color: Black;
+background-color: DodgerBlue;
+width: 100%;
+}
+
+
+.header h1 {
+  position: center;
+  width: 100%;
+  top: 12px;
+  left: 6px;
+}
+
+
+.btn {
+  background-color: DodgerBlue;
+  color: black;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 25px 50px 50px 25px;
+  position: center;
+  border-radius: 25px;
+  text-align: relative;
+  display: inline-block;
+  margin: 2px 40px;
+  transition-duration: 0.3s;
+  float: left;
+  table-layout:fixed;              /* Width of the buttons */ 
+  border: none;    /* Blue */
+  width: 300px;
+  height: 40px;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+  background-color: RoyalBlue;
+  border: 2px solid #008CBA
+}
+
+
+
+</style>
+</head>
+
+
+
+<body>
+
+<div class= "header">
+  <h1>  <strong> Admin - Export Data </h1>
+</div> <br>
+
+
+<!--- <p>Welcome to Sushi House.</p>
+<p><strong> Please enter your 4 didgit code to clock In/Out:</strong></p>
+--->
+
+<br> <br>
+<label for="start"><strong>From:</label>
+
+<input type="date" id="start" name="work-start"
+       value= "yyyy-mm-dd"
+       min="2020-01-01" max="2030-12-31">
+
+<label for="start"><strong>To:</label>
+
+<input type="date" id="start" name="trip-start"
+       value="yyyy-mm-dd-12"
+       min="2020-01-01" max="2030-12-31">
+
+<br> <br> <br> <br> <br> <br> <br> <br><br> <br> <br> <br> <br> <br> <br> <br><br> <br> <br> <br> <br> <br>
+
+<div>
+  <button class="btn"><i class="fa fa-arrow-circle-left"></i> <strong> Go Back
+        <a href="https://www.tacoma.uw.edu" Style = "text-decoration: none; color: black; width: 100% "></a>
+  </button> 
+</div>
+
+
+<div>
+  <button class="btn"><i class="far fa-clone"></i> <strong> Export
+        <a href="https://www.tacoma.uw.edu" Style = "text-decoration: none; color: black; width: 100% "> </a>
+  </button>
+</div>
+
+
+<div>
+  <button class="btn"><i class="fa fa-trash"></i> <strong> Delete
+        <a href="https://www.tacoma.uw.edu" Style = "text-decoration: none; color: black; width: 100% "></a>
+  </button>
+</div> <br>
+<br> <br> <br> <br> <br> <br> <br> <br><br> <br> <br> <br><br> <br> <br>
+
+
+
+
+
+
+</body>
+</html>

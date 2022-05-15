@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+.header{
+
+padding: 12px;
+text-align: center;
+font-family: Arial;
+font-size: 12px;
+color: Black;
+background-color: #90caf9;
+}
+
+
+.header h1 {
+  position: relative;
+}
+
+
+.button {
+  border: none;
+  color: white;
+  width: 20%;
+  padding: 18px 36px;
+  text-align: center;
+  border-radius: 25px;
+  display: inline-block;
+  font-size: 16px;
+  position: relative;
+  margin: 4px 16px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+.input {                  /* 4 Digit code Button*/
+  border: solid black 2px;
+  color: solid black;
+  width: 14%;
+  padding: 18px 36px;
+  text-align: center;
+  border-radius: 25px;
+  display: inline-block;
+  font-size: 20px;        /* Font size of date */
+  position: relative;
+  margin: 4px 16px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+
+.input:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+  background-color: RoyalBlue;
+  color: solid black;
+  border: 2px solid #008CBA
+}
+
+
+
+.button3 {
+  background-color: DodgerBlue;
+  border-radius: 25px;
+  position: relative;
+  width: 50%;
+  table-layout: fixed;
+  width: 20%;                /* Width of the buttons */ 
+  color: black; 
+  border: 2px solid #008CBA;    /* Blue */
+}
+
+.button3:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+  background-color: RoyalBlue;
+  color: white;
+  border: 2px solid #008CBA
+}
+
+</style>
+</head>
+<body>
+
+<div class= "header">
+  <img src="https://afcsushi.com/wp-content/uploads/2017/03/about_logo.png" alt="logo"/>       <!--- Importing AFC Logo -->
+  <h1>  Clock In/Clock Out </h1>
+</div> <br>
+
+
+<p>Welcome to Sushi House.</p>
+<p><strong> Please enter your 4 didgit code to clock In/Out:</strong></p>
+
+<div>
+  <form> 
+    <input Class = "input" type="text" size="4" maxlength="4" minlength="4" placeholder="4 Digit Code">
+  </form>
+</div> <br>
+
+
+<div>
+  <button class="button button3">
+        <a href="https://www.tacoma.uw.edu" Style = "text-decoration: none; color: black; "> Clock In/Out </a>
+  </button>
+</div> <br>
+
+
+<div>
+  <button class="button button3">
+        <a href="https://www.tacoma.uw.edu" Style = "text-decoration: none; color: black; "> Time Card </a>
+  </button>
+</div> <br>
+
+<!--- <form>
+  <textarea>Some text...</textarea>
+</form>
+-->
+
+</body>
+</html>
