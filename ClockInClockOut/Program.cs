@@ -38,6 +38,10 @@ builder.Services.AddScoped<IRecordServices, RecordServices>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+builder.Services.ConfigureApplicationCookie(o => {
+    o.ExpireTimeSpan = TimeSpan.FromHours(1);
+    o.SlidingExpiration = true;
+});
 
 var app = builder.Build();
 
