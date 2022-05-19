@@ -11,29 +11,31 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span> Clock In/Out
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="EmployeeTimesheet">
+                <span class="oi oi-people" aria-hidden="true"></span> Employees-Timesheet
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
+
+
         <AuthorizeView>
-                <div class="nav-item px-3">
+        <div class="nav-item px-3">
             <NavLink class="nav-link" href="Employees">
-                <span class="oi oi-people" aria-hidden="true"></span> Employees
+                <span class="oi oi-people" aria-hidden="true"></span> Admin - Employees
             </NavLink>
         </div>
 
          <div class="nav-item px-3">
             <NavLink class="nav-link" href="Records">
-                <span class="oi oi-folder" aria-hidden="true"></span> Records
+                <span class="oi oi-folder" aria-hidden="true"></span> Admin - Records
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="ExportData">
+                <span class="oi oi-folder" aria-hidden="true"></span> Admin - Export Data
             </NavLink>
         </div>
 

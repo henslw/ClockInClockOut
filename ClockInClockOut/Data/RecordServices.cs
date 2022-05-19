@@ -2,21 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 namespace ClockInClockOut.Data
 {
-
-
         public class RecordServices : IRecordServices
         {
-
             private readonly DataContext _context;
             private readonly NavigationManager _navigationManager;
 
             public RecordServices(DataContext context, NavigationManager navigationManager)
             {
-
                 _context = context;
                 _navigationManager = navigationManager;
                 _context.Database.EnsureCreated();
             }
+
             public List<Record> Records { get; set; } = new List<Record>();
 
             public async Task CreateRecord(Record record)
@@ -84,10 +81,9 @@ namespace ClockInClockOut.Data
                 dbRecord.TotalHoursWorked = record.TotalHoursWorked;
 
                 await _context.SaveChangesAsync();
-
             }
         }   
-    }
+}
 
 
 

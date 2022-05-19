@@ -1,9 +1,10 @@
 ﻿@page "/RecordsCRUD"
 @page "/RecordsCRUD/{ItemNumber:int}"
-
+@attribute [Authorize]
 @inject IRecordServices RecordServices
 
-@if(itemNumber == null){
+@if (itemNumber == null)
+{
     <h3>Create a new Record</h3>
 }
 else
@@ -30,26 +31,26 @@ else
     <div>
         <label for="ClockOutTime">Clock Out Time</label>
         <InputDateTime id="ClockOutTime" @bind-Value="record.ClockOutTime" class="form-control"></InputDateTime>
-        
+
     </div>
     <div>
         <label for="TotalHoursWorked">Total Hours Worked</label>
-        <InputNumber id="TotalHoursWorked" @bind-Value="record.TotalHoursWorked" class="form-control"></InputNumber>
-
+        <InputNumber id="TotalHoursWorked" @bind-Value="record.TotalHoursWorked" class="form-control" readonly></InputNumber>
     </div>
     <br />
     <button type="submit" class="btn btn-primary">@btnText</button>
     @if (itemNumber != null)
     {
-        <button type="button" class="btn btn-danger" @onclick = "DeleteRecord">Delete Record</button>
+        <button type="button" class="btn btn-danger" @onclick="DeleteRecord">Delete Record</button>
     }
 </EditForm>
 
 
 
-@code {
+@code
+{
     [Parameter]
-    public int? itemNumber{ get; set;}
+    public int? itemNumber { get; set; }
 
     string btnText = string.Empty;
 
@@ -58,11 +59,12 @@ else
     protected override void OnInitialized()
     {
         btnText = itemNumber == null ? "Save new Record" : "Update Record";
+
     }
 
     protected override async Task OnParametersSetAsync()
     {
-        if(itemNumber == null)
+        if (itemNumber == null)
         {
             //do nothing
         }
@@ -70,18 +72,23 @@ else
         {
             record = await RecordServices.GetRecord((int)itemNumber);
         }
-
     }
 
     async Task HandleSubmit()
     {
-        if(itemNumber == null)
+        if (itemNumber == null)
         {
-            await RecordServices.CreateRecord(record);
-        }
-        else
-        {
-            await RecordServices.UpdateRecord(record, (int)itemNumber);
+            if (record.ClockInTime != DateTime.MinValue && record.ClockOutTime != DateTime.MinValue)
+            {
+                TimeSpan diff = record.ClockOutTime - record.ClockInTime;
+                double hours = diff.TotalHours;
+                record.TotalHoursWorked = hours;
+                await RecordServices.CreateRecord(record);
+            }
+            else
+            {
+                await RecordServices.UpdateRecord(record, (int)itemNumber);
+            }
         }
     }
 
@@ -89,9 +96,5 @@ else
     {
         await RecordServices.DeleteRecord(record.ItemNumber);
     }
-
-}
-
-@code {
 
 }

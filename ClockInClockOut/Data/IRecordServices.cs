@@ -4,13 +4,11 @@
     {
         List<Record> Records { get; set; }
         Task LoadRecord();
-        Task<Record> GetRecord(int IdNumber);
+        Task<Record> GetRecord(int ItemNumber);
         Task CreateRecord(Record Record);
-
 
         // for clockin create record
         Task CreateRecord2(Record Record);
-
 
         Task UpdateRecord(Record Record, int ItemNumber);
 

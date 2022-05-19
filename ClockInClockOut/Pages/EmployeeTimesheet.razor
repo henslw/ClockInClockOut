@@ -1,0 +1,198 @@
+﻿@page "/EmployeeTimesheet"
+@inject IEmployeeServices EmployeeService
+@inject IRecordServices RecordServices
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Add icon library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+
+.label {
+  display: block;
+  float: lrft;
+  font: 1rem 'Fira Sans', sans-serif;
+
+}
+
+input,                    /* Date box position. */
+.label {
+  margin: 20px 10px;
+  width: 50%;
+  border: 3px solid black;
+  padding: 20px;
+  border-radius: 25px;
+  display: inline-block;
+  font-size: 16px;
+  width: 15%;          /* Font size of date */
+  position: relative;
+  text-align: center;
+}
+
+
+.label:hover {                    
+  background-color: RoyalBlue;
+  border: 2px solid #008CBA
+}
+
+
+.header{
+padding: 12px;
+text-align: center;
+font-family: Arial;
+font-size: 12px;
+color: Black;
+background-color: DodgerBlue;
+width: 100%;
+}
+
+
+.header h1 {
+  position: center;
+  width: 100%;
+  top: 12px;
+  left: 6px;
+}
+
+
+.name {                         /* Name button next to date */
+  margin: 20px 20px;
+  border: none;
+  padding: 40px;
+  border-radius: 25px;
+  display: inline-block;
+  font-size: 20px;
+  width: 30%;          /* Font size of date */
+  text-align: center;
+}
+
+.name:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+  background-color: RoyalBlue;
+  border: 2px solid #008CBA
+}
+
+.input {                  /* 4 Digit code Button*/
+  border: black 2px;
+  color: black;
+  width: 14%;
+  padding: 18px 36px;
+  text-align: center;
+  border-radius: 25px;
+  display: inline-block;
+  font-size: 20px;        /* Font size of date */
+  position: relative;
+  margin: 4px 16px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+
+.input:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+  background-color: RoyalBlue;
+  color: solid black;
+  border: 2px solid #008CBA
+}
+
+.button1 {                            
+  background-color: DodgerBlue;   /* Style of the Go back button */ 
+  color: black;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 20px;
+  position: center;
+  border-radius: 25px;
+  text-align: relative;
+  display: inline-block;
+  margin: 20% 500px;
+  transition-duration: 0.3s;
+  float: left;
+  table-layout:fixed;              
+  border: none;
+  width: 15%;                   /* Blue */
+}
+
+.button1:hover {                      /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+  background-color: RoyalBlue;    /* Darker background on mouse-over */
+  border: 2px solid #008CBA
+}
+
+.button3 {
+  background-color: DodgerBlue;
+  border-radius: 25px;
+  position: relative;
+  width: 20%;
+  height: 80px;
+  table-layout: fixed;
+  color: black; 
+  border: 2px solid #008CBA;    /* Blue */
+}
+
+.button3:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+  background-color: RoyalBlue;
+  color: white;
+  border: 2px solid #008CBA
+}
+
+
+</style>
+</head>
+
+<div class= "header">
+  <h1> <b>Employee - Timesheet</b></h1>
+</div> <br>
+
+
+
+<EditForm Model="employee" OnSubmit="HandleSubmit">
+        <label for="IdNumber"<b>4 Digit Code</b></label>
+        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" ></InputNumber>
+        <label for="FirstDateRange"><b>From:</b></label>
+        <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="input"></InputDate>
+        <label for="SecondDateRange"><b>To:</b></label>
+        <InputDate id="SecondDateRange" @bind-Value="SecondDateRange" class="input"></InputDate>
+        <!--<button type="submit" class="button3">Search</button> -->
+</EditForm> 
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>Employee Name</th>
+                <th>Clock In Time</th>
+                <th>Clock Out Time</th>
+                <th>Hours Worked</th>
+            </tr>
+
+
+        </thead>
+
+        <tbody>
+        
+        @foreach (var record in RecordServices.Records)
+        {
+            @if (employee.IdNumber == record.IdNumber && FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockInTime) {
+                <tr>
+                <td>@record.EmployeeName</td>
+                <td>@record.ClockInTime</td>
+                <td>@record.ClockOutTime</td>
+                <td>@Math.Round(record.TotalHoursWorked,2)</td>
+            </tr>
+            }
+        }
+        </tbody>
+</table>  
+
+@code {
+    Employee employee = new Employee();
+    Record record = new Record();
+    DateTime FirstDateRange = DateTime.Today.Date;
+    DateTime SecondDateRange = DateTime.Today.Date;
+
+    async Task HandleSubmit()
+    {
+        await RecordServices.LoadRecord();
+        Record record = new Record();
+    }
+}
