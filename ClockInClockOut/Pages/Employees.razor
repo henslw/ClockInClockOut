@@ -4,19 +4,16 @@
 @inject NavigationManager NavigationManager
 <h3>Employees</h3>
 <table class="table">
-        <thead>
-            <tr>
-                <th>ID Number</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Clocked In</th>
+    <thead>
+        <tr>
+            <th>ID Number</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Clocked In</th>
+        </tr>
+    </thead>
 
-            </tr>
-
-
-        </thead>
-
-        <tbody>
+    <tbody>
         @foreach (var employee in EmployeeService.Employees)
         {
             <tr>
@@ -25,16 +22,16 @@
                 <td>@employee.LastName</td>
                 <td>@employee.IsClockedIN</td>
                 <td>
-                    <button class="btn btn-primary" @onclick ="(()=> ShowEmployee(employee.IdNumber))" >
+                    <button class="btn btn-primary" @onclick="(()=> ShowEmployee(employee.IdNumber))">
                         <i class="oi oi-pencil"></i>
 
                     </button>
                 </td>
             </tr>
         }
-        </tbody>
-</table>  
-<button class="btn btn-primary"@onclick="CreateNewEmployee">Create New Employee</button>
+    </tbody>
+</table>
+<button class="btn btn-primary" @onclick="CreateNewEmployee">Create New Employee</button>
 @code {
     protected override async Task OnInitializedAsync()
     {

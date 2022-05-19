@@ -5,6 +5,14 @@
 
 <h3>Records</h3>
 
+<EditForm Model="record" onsubmit="HandleSubmit">
+        <label for="FirstDateRange"><b>From:</b></label>
+        <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="input"></InputDate>
+        <label for="SecondDateRange"><b>To:</b></label>
+        <InputDate id="SecondDateRange" @bind-Value="SecondDateRange" class="input"></InputDate>
+        <button type="submit" class="button3">Search</button>
+
+</EditForm> 
 <table class="table">
         <thead>
             <tr>
@@ -22,27 +30,34 @@
         @foreach (var record in RecordServices.Records)
         {
             <tr>
-                <td>@record.IdNumber</td>
-                <td>@record.EmployeeName</td>
-                <td>@record.ClockInTime</td>
-                <td>@record.ClockOutTime</td>
-                <td>@record.TotalHoursWorked</td>
-                <td>
-                    <button class="btn btn-primary" @onclick ="(()=> ShowRecord(record.ItemNumber))" >
-                        <i class="oi oi-pencil"></i>
-                    </button>
-                </td>
+                @if (FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockInTime)
+                {
+                    <td>@record.IdNumber</td>
+                    <td>@record.EmployeeName</td>
+                    <td>@record.ClockInTime</td>
+                    <td>@record.ClockOutTime</td>
+                    <td>@record.TotalHoursWorked</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick ="(()=> ShowRecord(record.ItemNumber))" >
+                            <i class="oi oi-pencil"></i>
+                        </button>
+                    </td>
+                }
             </tr>
         }
         </tbody>
 </table>  
 <button class="btn btn-primary"@onclick="CreateNewRecord">Create New Record</button>
+
 @code {
-    protected override async Task OnInitializedAsync()
+    Record record = new Record();
+    DateTime FirstDateRange = DateTime.Today.Date;
+    DateTime SecondDateRange = DateTime.Today.Date;
+
+    async Task HandleSubmit()
     {
         await RecordServices.LoadRecord();
     }
-
     void ShowRecord(int ItemNumber)
     {
         NavigationManager.NavigateTo($"RecordsCRUD/{ItemNumber}");
@@ -51,6 +66,11 @@
     void CreateNewRecord()
     {
         NavigationManager.NavigateTo("RecordsCRUD");
+    }
+
+    private async void HandleValidSubmit()
+    {
+        await RecordServices.LoadRecord();
     }
 
 }
