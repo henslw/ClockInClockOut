@@ -4,150 +4,136 @@
 
 <!DOCTYPE html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-
-.header{
-
-padding: 12px;
-text-align: center;
-font-family: Arial;
-font-size: 12px;
-color: Black;
-background-color: #90caf9;
-}
-
-
-.header h1 {
-  position: relative;
-}
-
-
-.button {
-  border: none;
-  color: white;
-  width: 20%;
-  padding: 18px 36px;
-  text-align: center;
-  border-radius: 25px;
-  display: inline-block;
-  font-size: 16px;
-  position: relative;
-  margin: 4px 16px;
-  transition-duration: 0.3s;
-  cursor: pointer;
-}
-
-.input {                  /* 4 Digit code Button*/
-  border: solid black 2px;
-  color: solid black;
-  width: 14%;
-  padding: 18px 36px;
-  text-align: center;
-  border-radius: 25px;
-  display: inline-block;
-  font-size: 20px;        /* Font size of date */
-  position: relative;
-  margin: 4px 16px;
-  transition-duration: 0.3s;
-  cursor: pointer;
-}
-
-
-.input:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-  background-color: RoyalBlue;
-  color: solid black;
-  border: 2px solid #008CBA
-}
-
-
-
-.button3 {
-  background-color: DodgerBlue;
-  border-radius: 25px;
-  position: relative;
-  width: 20%;
-  height: 80px;
-  table-layout: fixed;
-  color: black; 
-  border: 2px solid #008CBA;    /* Blue */
-}
-
-.button3:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-  background-color: RoyalBlue;
-  color: white;
-  border: 2px solid #008CBA
-}
-
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .header{
+        padding: 12px;
+        text-align: center;
+        font-family: Arial;
+        font-size: 12px;
+        color: Black;
+        background-color: DodgerBlue;
+        width: 100%;
+        }
+        .header h1 {    
+          position: center;
+          width: 100%;
+          top: 12px;
+          left: 6px;
+        }
+        .button {
+          border: none;
+          color: white;
+          width: 20%;
+          padding: 18px 36px;
+          text-align: center;
+          border-radius: 25px;
+          display: inline-block;
+          font-size: 16px;
+          position: relative;
+          margin: 4px 16px;
+          transition-duration: 0.3s;
+          cursor: pointer;
+        }
+        .input {                  /* 4 Digit code Button*/
+          border: solid black 2px;
+          color: solid black;
+          width: 14%;
+          padding: 18px 36px;
+          text-align: center;
+          border-radius: 25px;
+          display: inline-block;
+          font-size: 20px;        /* Font size of date */
+          position: relative;
+          margin: 4px 16px;
+          transition-duration: 0.3s;
+          cursor: pointer;
+        }
+        .input:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+          background-color: RoyalBlue;
+          color: solid black;
+          border: 2px solid #008CBA
+        }
+        .button3 {
+          background-color: DodgerBlue;
+          border-radius: 25px;
+          position: relative;
+          width: 20%;
+          height: 80px;
+          table-layout: fixed;
+          color: black; 
+          border: 2px solid #008CBA;    /* Blue */
+        }
+        .button3:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+          background-color: RoyalBlue;
+          color: white;
+          border: 2px solid #008CBA
+        }
+    </style>
 </head>
 
 <div class= "header">
-  <img src="https://afcsushi.com/wp-content/uploads/2017/03/about_logo.png" alt="logo"/>       <!--- Importing AFC Logo -->
-  <h1>  Clock In/Clock Out </h1>
+    <img src="https://afcsushi.com/wp-content/uploads/2017/03/about_logo.png" alt="logo"/>       <!--- Importing AFC Logo -->
+    <h1>  Clock In/Clock Out </h1>
 </div> <br>
 
 <p><strong> Enter your 4 digit code, then press Clock In/Out button.</strong></p>
 
 <EditForm Model="employee" OnSubmit="HandleSubmit">
     <div>
-        <label for="IdNumber"<b>4 Digit Code</b></label>
-        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" ></InputNumber>
+        <label for="IdNumber"><b>4 Digit Code</b></label>
+        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" maxlength = "4" ></InputNumber>
     </div>
     <br>
 <button type="submit" class="button3">Clock in/Clock out</button>
-
-</EditForm> 
+</EditForm>
 
 @code{
-    //[Parameter]
-    // public int? idNumber{ get; set;}
+    Employee employee = new Employee();
+    Record record = new Record();
 
 
     async Task HandleSubmit()
     {
-
-        await ClockInRecored(employee.IdNumber);
-
+        await ClockInRecord(employee.IdNumber);
+        employee.IdNumber = 0;
+        this.record = new Record();
+        this.employee = new Employee();
     }
 
-    Employee employee = new Employee();
-
-    Record record = new Record();
-
-    async Task ClockInRecored(int idNumber)
+    async Task ClockInRecord(int idNumber)
     {
 
         var employee = await EmployeeService.GetEmployee((int)idNumber);
         if (employee.IsClockedIN == false)
         {
-            //Record record = new Record();
             record.IdNumber = employee.IdNumber;
             record.EmployeeName = employee.FirstName + " " + employee.LastName;
             record.ClockInTime = DateTime.Now;
 
             employee.IsClockedIN = true;
 
-
             await RecordServices.CreateRecord2(record);
+
             await EmployeeService.UpdateEmployee2(employee,employee.IdNumber);
         }
         else if (employee.IsClockedIN == true)
         {
-            
-            await ClockOUTRecored(employee);
+            await RecordServices.LoadRecord();
+            await ClockOUTRecord(employee);
         }
     }
 
-    async Task ClockOUTRecored(Employee employee) {
-
-        foreach (var record in RecordServices.Records){
-            if (record.ClockInTime.Date == DateTime.Today.Date && record.IdNumber == employee.IdNumber)
+    async Task ClockOUTRecord(Employee employee)
+    {
+        
+        foreach (var record in RecordServices.Records)
+        {
+            if (record.ClockInTime.Date == DateTime.Today.Date && record.IdNumber == employee.IdNumber && record.ClockOutTime == DateTime.MinValue)
             {
 
-                //int RecordID = employee.IdNumber;
+                int RecordID = employee.IdNumber;
 
                 var record1 = await RecordServices.GetRecord((int)record.ItemNumber);
 
@@ -162,12 +148,11 @@ background-color: #90caf9;
                 await EmployeeService.UpdateEmployee2(employee, employee.IdNumber);
                 await RecordServices.UpdateRecord2(record1, ItemNum);
             }
-            else{}
+            else
+            {
+
+            }
         }
 
-        
-
-        
     }
-
-    }
+}
