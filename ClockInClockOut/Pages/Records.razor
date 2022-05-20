@@ -12,7 +12,6 @@
     <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="input"></InputDate>
     <label for="SecondDateRange"><b>To:</b></label>
     <InputDate id="SecondDateRange" @bind-Value="SecondDateRange" class="input"></InputDate>
-    <button type="submit" class="button3">Search</button>
 </EditForm>
 <table class="table">
     <thead>
@@ -67,22 +66,6 @@
                             </button>
                         </td>
                     }
-                </tr>
-            }
-            <!--list all record-->
-            @foreach (var record in RecordServices.Records)
-            {
-                <tr>
-                    <td>@record.IdNumber</td>
-                    <td>@record.EmployeeName</td>
-                    <td>@record.ClockInTime</td>
-                    <td>@record.ClockOutTime</td>
-                    <td>@Math.Round(record.TotalHoursWorked,2)</td>
-                    <td>
-                        <button class="btn btn-primary" @onclick="(()=> ShowRecord(record.ItemNumber))">
-                            <i class="oi oi-pencil"></i>
-                        </button>
-                    </td>
                 </tr>
             }
         }
