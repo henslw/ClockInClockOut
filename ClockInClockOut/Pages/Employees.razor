@@ -1,4 +1,4 @@
-﻿@page "/Employees"
+﻿@page "/AdminEmployees"
 @attribute [Authorize]
 @inject IEmployeeServices EmployeeService
 @inject NavigationManager NavigationManager
@@ -22,7 +22,7 @@
                 <td>@employee.LastName</td>
                 <td>@employee.IsClockedIN</td>
                 <td>
-                    <button class="btn btn-primary" @onclick="(()=> ShowEmployee(employee.IdNumber))">
+                    <button class="btn btn-primary" @onclick="(()=> ShowEmployee((int)employee.IdNumber))">
                         <i class="oi oi-pencil"></i>
 
                     </button>

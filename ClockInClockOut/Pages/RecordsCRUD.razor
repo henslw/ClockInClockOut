@@ -2,6 +2,7 @@
 @page "/RecordsCRUD/{ItemNumber:int}"
 @attribute [Authorize]
 @inject IRecordServices RecordServices
+@inject IEmployeeServices EmployeeServices
 
 @if (itemNumber == null)
 {
@@ -19,11 +20,6 @@ else
         <InputNumber id="IdNumber" @bind-Value="record.IdNumber" class="form-control"></InputNumber>
     </div>
     <div>
-        <label for="EmployeeName">Employee Name</label>
-        <InputText id="EmployeeName" @bind-Value="record.EmployeeName" class="form-control"></InputText>
-    </div>
-
-    <div>
         <label for="ClockInTime">Clock In Time</label>
         <InputDateTime id="ClockInTime" @bind-Value="record.ClockInTime" class="form-control"></InputDateTime>
     </div>
@@ -31,11 +27,6 @@ else
     <div>
         <label for="ClockOutTime">Clock Out Time</label>
         <InputDateTime id="ClockOutTime" @bind-Value="record.ClockOutTime" class="form-control"></InputDateTime>
-
-    </div>
-    <div>
-        <label for="TotalHoursWorked">Total Hours Worked</label>
-        <InputNumber id="TotalHoursWorked" @bind-Value="record.TotalHoursWorked" class="form-control" readonly></InputNumber>
     </div>
     <br />
     <button type="submit" class="btn btn-primary">@btnText</button>
@@ -45,16 +36,13 @@ else
     }
 </EditForm>
 
-
-
 @code
 {
     [Parameter]
     public int? itemNumber { get; set; }
-
     string btnText = string.Empty;
-
     Record record = new Record();
+    Employee employee = new Employee();
 
     protected override void OnInitialized()
     {
@@ -78,17 +66,13 @@ else
     {
         if (itemNumber == null)
         {
-            if (record.ClockInTime != DateTime.MinValue && record.ClockOutTime != DateTime.MinValue)
-            {
-                TimeSpan diff = record.ClockOutTime - record.ClockInTime;
-                double hours = diff.TotalHours;
-                record.TotalHoursWorked = hours;
-                await RecordServices.CreateRecord(record);
-            }
-            else
-            {
-                await RecordServices.UpdateRecord(record, (int)itemNumber);
-            }
+            employee = await EmployeeServices.GetEmployee((int)record.IdNumber);
+            record.EmployeeName = employee.FirstName + " " + employee.LastName;
+            await RecordServices.CreateRecord(record);
+        }
+        else
+        {
+            await RecordServices.UpdateRecord(record, (int)itemNumber);
         }
     }
 
