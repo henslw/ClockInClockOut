@@ -1,43 +1,45 @@
 ﻿@page "/AdminExportData"
+@inject NavigationManager NavigationManager
+@inject IRecordServices RecordServices
+@inject IJSRuntime jsRuntime
+@using Excel = Microsoft.Office.Interop.Excel;
+@using System.Reflection;
 <!DOCTYPE html>
+
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Add icon library -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <style>
-            .label {
-              display: block;
-              float: left;
-              font: 1rem 'Fira Sans', sans-serif;
+    <style>
+        .label {
+            display: block;
+            float: left;
+            font: 1rem 'Fira Sans', sans-serif;
+        }
 
+        input,
+        .label {
+            margin: 20px 10px;
+            width: 50%;
+            border: 3px solid black;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 25px;
+            font-size: 16px;
+            width: 15%; /* Font size of date */
+            position: relative;
+            text-align: center;
+        }
+
+            .label:hover { /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+                background-color: RoyalBlue;
+                border: 2px solid #008CBA
             }
 
-            input,
-            .label {
-              margin: 20px 10px;
-              width: 50%;
-              border: 3px solid black;
-              padding: 20px;
-              display: inline-block;
-              border-radius: 25px;
-              font-size: 16px;
-              width: 15%;          /* Font size of date */
-              position: relative;
-              text-align: center;
-
-            }
-
-
-            .label:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-              background-color: RoyalBlue;
-              border: 2px solid #008CBA
-            }
-
-
-            .header{
+        .header {
             padding: 12px;
             text-align: center;
             font-family: Arial;
@@ -45,78 +47,162 @@
             color: Black;
             background-color: DodgerBlue;
             width: 100%;
-            }
-
+        }
 
             .header h1 {
-              position: center;
-              width: 100%;
-              top: 12px;
-              left: 6px;
+                position: center;
+                width: 100%;
+                top: 12px;
+                left: 6px;
             }
 
-
-            .btnexportdata {
-              background-color: DodgerBlue;
-              color: black;
-              font-size: 24px;
-              cursor: pointer;
-              padding: 25px 50px 50px 25px;
-              position: center;
-              border-radius: 25px;
-              text-align: relative;
-              display: inline-block;
-              margin: 2px 40px;
-              transition-duration: 0.3s;
-              float: left;
-              table-layout:fixed;              /* Width of the buttons */ 
-              border: none;    /* Blue */
-              width: 300px;
-              height: 40px;
-            }
+        .btnexportdata {
+            background-color: DodgerBlue;
+            color: black;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 25px 50px 50px 25px;
+            position: center;
+            border-radius: 25px;
+            text-align: relative;
+            display: inline-block;
+            margin: 2px 40px;
+            transition-duration: 0.3s;
+            float: left;
+            table-layout: fixed; /* Width of the buttons */
+            border: none; /* Blue */
+            width: 300px;
+            height: 40px;
+        }
 
             /* Darker background on mouse-over */
-            .btn:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-              background-color: RoyalBlue;
-              border: 2px solid #008CBA
+            .btnexportdata:hover { /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+                background-color: RoyalBlue;
+                border: 2px solid #008CBA
             }
-        </style>
-    </head>
+    </style>
+</head>
 
-    <body>
-        <div class= "header">
-          <h1>  Admin - Export Data </h1>
-        </div> <br><br><br>
-        <label for="start">From:</label>
+<body>
+    <div class="header">
+        <h1>  Admin - Export Data </h1>
+    </div>
+    <br>
+    <br>
+    <br>
+    <!-- <label for="start">From:</label> -->
+    <EditForm Model="record" OnSubmit="HandleSubmit">
+        <label for="FirstDateRange"><b>From:</b></label>
+        <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="input"></InputDate>
+        <label for="SecondDateRange"><b>To:</b></label>
+        <InputDate id="SecondDateRange" @bind-Value="SecondDateRange" class="input"></InputDate>
+    </EditForm>
 
-        <input type="date" id="start" name="work-start"
-               value= "yyyy-mm-dd"
-               min="2020-01-01" max="2030-12-31">
-
-        <label for="start">To:</label>
-
-        <input type="date" id="start" name="trip-start"
-               value="yyyy-mm-dd-12"
-               min="2020-01-01" max="2030-12-31">
-
+    <EditForm Model="record" OnSubmit="ExportSetData">
         <div>
-          <button class="btnexportdata"><i class="far fa-clone"></i>Export
-                <a href="https://www.tacoma.uw.edu" Style = "text-decoration: none; color: black; width: 100% "> </a>
-          </button>
+            <button class="btnexportdata">
+                <i class="far fa-clone"></i>Export
+            </button>
         </div>
+    </EditForm>
 
+    <EditForm Model="record" OnSubmit="DeleteData">
         <div>
-          <button class="btnexportdata"><i class="fa fa-trash"></i>Delete
-                <a href="https://www.tacoma.uw.edu" Style = "text-decoration: none; color: black; width: 100% "></a>
-          </button>
+            <button class="btnexportdata">
+                <i class="fa fa-trash"></i>Delete
+            </button>
         </div>
-    </body>
+    </EditForm>
+
+</body>
 </html>
 
 
 
 
-
 @code {
+    Record record = new Record();
+    DateTime FirstDateRange = DateTime.Today.Date;
+    DateTime SecondDateRange = DateTime.Today.Date;
 
+    // load record database when the program starts
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RecordServices.LoadRecord();
+    }
+
+    async Task DeleteData()
+    {
+        bool dataDeleted = false;
+        foreach (var record in RecordServices.Records) // delete existing records that matches the date range
+        {
+            if (FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockInTime)
+            {
+                await RecordServices.DeleteRecord2(record.ItemNumber);
+                dataDeleted = true;
+            }
+        }
+        if (dataDeleted)
+        {            
+            await jsRuntime.InvokeVoidAsync("alert", "Data Record is deleted.");
+        }
+        else
+        {
+            await jsRuntime.InvokeVoidAsync("alert", "No Data Deleted.");
+            
+        }
+
+    }
+    async Task ExportSetData()
+    {
+        Excel.Application oXL;
+        Excel._Workbook oWB;
+        Excel._Worksheet oSheet;
+        Excel.Range oRng;
+
+        //Start Excel and get Application object.
+        oXL = new Excel.Application();
+        oXL.Visible = true;
+
+        //Get a new workbook.
+        oWB = (Excel._Workbook)(oXL.Workbooks.Add(Missing.Value));
+        oSheet = (Excel._Worksheet)oWB.ActiveSheet;
+
+        //Add table headers going cell by cell.
+        oSheet.Cells[1, 1] = "Employee Code";
+        oSheet.Cells[1, 2] = "Employee Name";
+        oSheet.Cells[1, 3] = "Clock-In Time";
+        oSheet.Cells[1, 4] = "Clock-Out Time";
+        oSheet.Cells[1, 5] = "Total Hours Worked";
+
+        //Table Formatting (For the 1st Row)
+        oSheet.get_Range("A1", "E1").Font.Bold = true;
+
+        int counter = 2; //Keeps track of which row to store data
+
+        //Add Data from Record Database to Excel
+        foreach (var record in RecordServices.Records)
+        {
+            if (FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockOutTime
+                && record.ClockOutTime != DateTime.MinValue) //If the record takes place within the timeframe and
+                                                             //the employee isn't currently working-
+            {
+                oSheet.Cells[counter, 1] = record.IdNumber;
+                oSheet.Cells[counter, 2] = record.EmployeeName;
+                oSheet.Cells[counter, 3] = record.ClockInTime;
+                oSheet.Cells[counter, 4] = record.ClockOutTime;
+                oSheet.Cells[counter, 5] = Math.Round(record.TotalHoursWorked, 2);
+                counter++;
+            }
+        }
+
+        //Table Formatting (For each column)
+        oRng = oSheet.get_Range("A1", "E1");
+        oRng.EntireColumn.AutoFit();
+    }
+    async Task HandleSubmit()
+    {
+        await RecordServices.LoadRecord();
+    }
 }

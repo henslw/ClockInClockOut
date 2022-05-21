@@ -44,6 +44,15 @@ namespace ClockInClockOut.Data
             _navigationManager.NavigateTo("AdminTimesheet");
         }
 
+        public async Task DeleteRecord2(int ItemNumber)
+        {
+            var record = await _context.Records.FindAsync(ItemNumber);
+            if (record == null)
+                throw new Exception("Record not found.");
+
+            _context.Records.Remove(record);
+            await _context.SaveChangesAsync();
+        }
         public async Task<Record> GetRecord(int ItemNumber)
         {
             var record = await _context.Records.FindAsync(ItemNumber);

@@ -39,7 +39,9 @@ namespace ClockInClockOut.Data
         {
             var employee = await _context.Employees.FindAsync(Id);
             if (employee == null)
+            {
                 throw new Exception("Employee not found.");
+            }
             return employee;
         }
 

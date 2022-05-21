@@ -1,6 +1,7 @@
 @page "/"
 @inject IEmployeeServices EmployeeService
 @inject IRecordServices RecordServices
+@inject IJSRuntime jsRuntime
 
 <!DOCTYPE html>
 <head>
@@ -113,7 +114,7 @@
 
 
 <table class="table" style="width:100%">
-    <td style="width:40%">
+    <td style="width:40%"> <!-- left side of UI is for clock in/out -->
         <p><strong> Enter your 4 digit code, then press Clock In/Out button.</strong></p>
         <EditForm Model="employee" OnValidSubmit="HandleSubmit">
             <label for="IdNumber"><b>4 Digit Code</b></label>
@@ -122,8 +123,8 @@
             <button type="submit" class="button3" style="width:70%">Clock in/Clock out</button>
         </EditForm>
     </td>
-
-    <td style="width 60%">
+    <td style="width 60%"> <!-- right side of UI is to display Today's Status-->
+        <h2><b>Today's Status</b></h2> <!-- shows today's clock in/out record-->
         <table class="table">
             <thead>
                 <tr>
@@ -131,10 +132,7 @@
                     <th>Clock In</th>
                     <th>Clock Out</th>
                 </tr>
-
-
             </thead>
-
             <tbody>
                 @foreach (var record in RecordServices.Records)
                 {
@@ -159,30 +157,52 @@
         </table>
     </td>
 </table>
+
+
 @code {
-        Employee employee = new Employee();
-        Record record = new Record();
-        string message = "Invalid Employee ID";
+    Employee employee = new Employee();
+    Record record = new Record();
+
+    bool IdFound = false;
     async Task HandleSubmit()
     {
-        await ClockInRecord(employee.IdNumber);
+        foreach (var employee2 in EmployeeService.Employees)
+        {
+            if (employee2.IdNumber == employee.IdNumber) //verify user's input is a valid input in the database
+            {
+                await ClockInRecord(employee.IdNumber);
+                IdFound = true;
+            }
+        }
+        if (IdFound == false) // if user input was not found in the database, show pop up errors
+        {
+            if (employee.IdNumber < 999 || employee.IdNumber > 9999)
+            {
+                await jsRuntime.InvokeVoidAsync("alert", "Please enter 4 digit Code");
+            }
+            else
+            {
+                await jsRuntime.InvokeVoidAsync("alert", "Invalid Employee ID. Double check your entry.");
+            }
+        }
+
+        // reset all the values for next handlesubmit
         this.record = new Record();
         this.employee = new Employee();
         this.employee.IdNumber = 0;
-
+        IdFound = false;
     }
 
+    // load employees when the program starts
     protected override async Task OnInitializedAsync()
     {
-        await RecordServices.LoadRecord();
+        await EmployeeService.LoadEmployees();
     }
-
 
     async Task ClockInRecord(int idNumber)
     {
-
         var employee = await EmployeeService.GetEmployee((int)idNumber);
-        if (employee.IsClockedIN == false)
+        if (employee.IsClockedIN == false) // perform clock in
         {
             record.IdNumber = employee.IdNumber;
             record.EmployeeName = employee.FirstName + " " + employee.LastName;
@@ -194,7 +214,7 @@
             await EmployeeService.UpdateEmployee2(employee, employee.IdNumber);
             await RecordServices.LoadRecord();
         }
-        else if (employee.IsClockedIN == true)
+        else if (employee.IsClockedIN == true) // perform clock out
         {
             await RecordServices.LoadRecord();
             await ClockOUTRecord(employee);
@@ -208,9 +228,7 @@
         {
             if (record.ClockInTime.Date == DateTime.Today.Date && record.IdNumber == employee.IdNumber && record.ClockOutTime == DateTime.MinValue)
             {
-
                 int RecordID = employee.IdNumber;
-
                 var record1 = await RecordServices.GetRecord((int)record.ItemNumber);
 
                 record1.ClockOutTime = DateTime.Now;
@@ -226,9 +244,9 @@
             }
             else
             {
-
+                // do nothing
             }
         }
 
     }
-        }
+}
