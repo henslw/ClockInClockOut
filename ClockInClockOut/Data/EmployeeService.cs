@@ -21,7 +21,7 @@ namespace ClockInClockOut.Data
         {
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync();
-            _navigationManager.NavigateTo("AdminEmployees");
+            _navigationManager.NavigateTo("AdminEmployee");
         }
 
         public async Task DeleteEmployee(int Id)
@@ -32,7 +32,7 @@ namespace ClockInClockOut.Data
             
             _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
-            _navigationManager.NavigateTo("AdminEmployees");
+            _navigationManager.NavigateTo("AdminEmployee");
         }
 
         public async Task<Employee> GetEmployee(int Id)
@@ -61,7 +61,7 @@ namespace ClockInClockOut.Data
             dbEmployee.IsClockedIN = employee.IsClockedIN;
 
             await _context.SaveChangesAsync();
-            _navigationManager.NavigateTo("AdminEmployees");
+            _navigationManager.NavigateTo("AdminEmployee");
         }
 
         public async Task UpdateEmployee2(Employee employee, int Id)

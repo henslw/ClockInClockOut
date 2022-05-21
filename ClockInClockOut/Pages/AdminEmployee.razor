@@ -1,4 +1,4 @@
-﻿@page "/AdminEmployees"
+﻿@page "/AdminEmployee"
 @attribute [Authorize]
 @inject IEmployeeServices EmployeeService
 @inject NavigationManager NavigationManager
@@ -40,12 +40,12 @@
 
     void ShowEmployee(int IdNumber)
     {
-        NavigationManager.NavigateTo($"EmployeesCRUD/{IdNumber}");
+        NavigationManager.NavigateTo($"CRUDEmployee/{IdNumber}");
 
     }
     void CreateNewEmployee()
     {
-        NavigationManager.NavigateTo("EmployeesCRUD");
+        NavigationManager.NavigateTo("CRUDEmployee");
     }
 
 }
