@@ -3,7 +3,8 @@
 @attribute [Authorize]
 @inject IEmployeeServices EmployeeService
 
-@if(idNumber == null){
+@if (idNumber == null)
+{
     <h3>Create a new employee</h3>
 }
 else
@@ -23,13 +24,19 @@ else
     <div>
         <label for="LastName">Last Name</label>
         <InputText id="LastName" @bind-Value="employee.LastName" class="form-control"></InputText>
-
+    </div>
+    <div>
+        <label for="IsClockedIN">ClockedIn</label>
+        <InputSelect id="IsClockedIN" @bind-Value="employee.IsClockedIN" class="form-control">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </InputSelect>
     </div>
     <br />
     <button type="submit" class="btn btn-primary">@btnText</button>
     @if (idNumber != null)
     {
-        <button type="button" class="btn btn-danger" @onclick = "DeleteEmployee">Delete Employee</button>
+        <button type="button" class="btn btn-danger" @onclick="DeleteEmployee">Delete Employee</button>
     }
 </EditForm>
 
@@ -37,7 +44,7 @@ else
 
 @code {
     [Parameter]
-    public int? idNumber{ get; set;}
+    public int? idNumber { get; set; }
 
     string btnText = string.Empty;
 
@@ -50,7 +57,7 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        if(idNumber == null)
+        if (idNumber == null)
         {
             //do nothing
         }
@@ -63,7 +70,7 @@ else
 
     async Task HandleSubmit()
     {
-        if(idNumber == null)
+        if (idNumber == null)
         {
             await EmployeeService.CreateEmployee(employee);
         }
