@@ -5,6 +5,7 @@
 @inject IJSRuntime JS
 @using System.IO
 @using System.Text;
+
 <!DOCTYPE html>
 
 <html>
@@ -81,6 +82,7 @@
                 background-color: RoyalBlue;
                 border: 2px solid #008CBA
             }
+
         .btndeletedata {
             background-color: red;
             color: black;
@@ -163,12 +165,16 @@
     async Task DeleteData()
     {
         bool dataDeleted = false;
-        foreach (var record in RecordServices.Records) // delete existing records that matches the date range
+         // delete confirmation message
+        if (await jsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete the records??"))
         {
-            if (FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockInTime)
+            foreach (var record in RecordServices.Records) // delete existing records that matches the date range
             {
-                await RecordServices.DeleteRecord2(record.ItemNumber);
-                dataDeleted = true;
+                if (FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockInTime)
+                {
+                    await RecordServices.DeleteRecord2(record.ItemNumber);
+                    dataDeleted = true;
+                }
             }
         }
         // error handling
@@ -203,9 +209,7 @@
         //Add all records that meets the date range requirement
         foreach (var record in RecordServices.Records)
         {
-            if (FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockOutTime
-                && record.ClockOutTime != DateTime.MinValue) //If the record takes place within the timeframe and
-                                                             //the employee isn't currently working-
+            if (FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockOutTime)
             {
                 var builder = new StringBuilder();
                 builder.Append(record.IdNumber);
