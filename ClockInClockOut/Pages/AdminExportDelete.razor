@@ -1,4 +1,4 @@
-﻿@page "/AdminExportData"
+﻿@page "/AdminExportDelete"
 @inject NavigationManager NavigationManager
 @inject IRecordServices RecordServices
 @inject IJSRuntime jsRuntime
@@ -81,6 +81,30 @@
                 background-color: RoyalBlue;
                 border: 2px solid #008CBA
             }
+        .btndeletedata {
+            background-color: red;
+            color: black;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 25px 50px 50px 25px;
+            position: center;
+            border-radius: 25px;
+            text-align: relative;
+            display: inline-block;
+            margin: 2px 40px;
+            transition-duration: 0.3s;
+            float: left;
+            table-layout: fixed; /* Width of the buttons */
+            border: none; /* Blue */
+            width: 300px;
+            height: 40px;
+        }
+
+            /* Darker background on mouse-over */
+            .btndeletedata:hover { /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+                background-color: darkred;
+                border: 2px solid #008CBA
+            }
     </style>
 </head>
 
@@ -109,7 +133,7 @@
 
     <EditForm Model="record" OnSubmit="DeleteData">
         <div>
-            <button class="btnexportdata">
+            <button class="btndeletedata">
                 <i class="fa fa-trash"></i>Delete
             </button>
         </div>
@@ -147,6 +171,7 @@
                 dataDeleted = true;
             }
         }
+        // error handling
         if (dataDeleted)
         {
             await jsRuntime.InvokeVoidAsync("alert", "Data Record is deleted.");
