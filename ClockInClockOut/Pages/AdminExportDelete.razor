@@ -1,9 +1,10 @@
-﻿@page "/AdminExportData"
+﻿@page "/AdminExportDelete"
 @inject NavigationManager NavigationManager
 @inject IRecordServices RecordServices
 @inject IJSRuntime jsRuntime
-@using Excel = Microsoft.Office.Interop.Excel;
-@using System.Reflection;
+@inject IJSRuntime JS
+@using System.IO
+@using System.Text;
 <!DOCTYPE html>
 
 <html>
@@ -80,6 +81,30 @@
                 background-color: RoyalBlue;
                 border: 2px solid #008CBA
             }
+        .btndeletedata {
+            background-color: red;
+            color: black;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 25px 50px 50px 25px;
+            position: center;
+            border-radius: 25px;
+            text-align: relative;
+            display: inline-block;
+            margin: 2px 40px;
+            transition-duration: 0.3s;
+            float: left;
+            table-layout: fixed; /* Width of the buttons */
+            border: none; /* Blue */
+            width: 300px;
+            height: 40px;
+        }
+
+            /* Darker background on mouse-over */
+            .btndeletedata:hover { /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+                background-color: darkred;
+                border: 2px solid #008CBA
+            }
     </style>
 </head>
 
@@ -108,7 +133,7 @@
 
     <EditForm Model="record" OnSubmit="DeleteData">
         <div>
-            <button class="btnexportdata">
+            <button class="btndeletedata">
                 <i class="fa fa-trash"></i>Delete
             </button>
         </div>
@@ -126,7 +151,10 @@
     DateTime SecondDateRange = DateTime.Today.Date;
 
     // load record database when the program starts
-
+    async Task HandleSubmit()
+    {
+        //do nothing
+    }
     protected override async Task OnInitializedAsync()
     {
         await RecordServices.LoadRecord();
@@ -143,66 +171,76 @@
                 dataDeleted = true;
             }
         }
+        // error handling
         if (dataDeleted)
-        {            
+        {
             await jsRuntime.InvokeVoidAsync("alert", "Data Record is deleted.");
         }
         else
         {
             await jsRuntime.InvokeVoidAsync("alert", "No Data Deleted.");
-            
+
         }
 
     }
-    async Task ExportSetData()
+    private Stream GetFileStream()
     {
-        Excel.Application oXL;
-        Excel._Workbook oWB;
-        Excel._Worksheet oSheet;
-        Excel.Range oRng;
+        //ExportFile will have all the records and header info
+        List<string> ExportFile = new List<string>();
+        //Manually creating header for each column
+        var header = new StringBuilder();
+        header.Append("Employee ID");
+        header.Append(",");
+        header.Append("Name");
+        header.Append(",");
+        header.Append("Clock In Time");
+        header.Append(",");
+        header.Append("Clock Out Time");
+        header.Append(",");
+        header.Append("Hours Worked");
+        ExportFile.Add(header.ToString());
 
-        //Start Excel and get Application object.
-        oXL = new Excel.Application();
-        oXL.Visible = true;
-
-        //Get a new workbook.
-        oWB = (Excel._Workbook)(oXL.Workbooks.Add(Missing.Value));
-        oSheet = (Excel._Worksheet)oWB.ActiveSheet;
-
-        //Add table headers going cell by cell.
-        oSheet.Cells[1, 1] = "Employee Code";
-        oSheet.Cells[1, 2] = "Employee Name";
-        oSheet.Cells[1, 3] = "Clock-In Time";
-        oSheet.Cells[1, 4] = "Clock-Out Time";
-        oSheet.Cells[1, 5] = "Total Hours Worked";
-
-        //Table Formatting (For the 1st Row)
-        oSheet.get_Range("A1", "E1").Font.Bold = true;
-
-        int counter = 2; //Keeps track of which row to store data
-
-        //Add Data from Record Database to Excel
+        //Add all records that meets the date range requirement
         foreach (var record in RecordServices.Records)
         {
             if (FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockOutTime
                 && record.ClockOutTime != DateTime.MinValue) //If the record takes place within the timeframe and
                                                              //the employee isn't currently working-
             {
-                oSheet.Cells[counter, 1] = record.IdNumber;
-                oSheet.Cells[counter, 2] = record.EmployeeName;
-                oSheet.Cells[counter, 3] = record.ClockInTime;
-                oSheet.Cells[counter, 4] = record.ClockOutTime;
-                oSheet.Cells[counter, 5] = Math.Round(record.TotalHoursWorked, 2);
-                counter++;
+                var builder = new StringBuilder();
+                builder.Append(record.IdNumber);
+                builder.Append(",");
+                builder.Append(record.EmployeeName);
+                builder.Append(",");
+                builder.Append(record.ClockInTime);
+                builder.Append(",");
+                builder.Append(record.ClockOutTime);
+                builder.Append(",");
+                builder.Append(record.TotalHoursWorked);
+                ExportFile.Add(builder.ToString());
             }
         }
+        byte[] result = ExportFile.SelectMany(s =>
+           System.Text.Encoding.UTF8.GetBytes(s + Environment.NewLine)).ToArray();
+        var fileStream = new MemoryStream(result);
 
-        //Table Formatting (For each column)
-        oRng = oSheet.get_Range("A1", "E1");
-        oRng.EntireColumn.AutoFit();
+        return fileStream;
     }
-    async Task HandleSubmit()
+
+    private async Task ExportSetData()
     {
-        await RecordServices.LoadRecord();
+        var fileStream = GetFileStream();
+        var fileName = "ExportFile.csv";
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+    private async Task DownloadFileFromURL()
+    {
+        var fileURL = "{FILE URL}";
+        var fileName = "{FILE NAME}";
+        await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
     }
 }
