@@ -8,20 +8,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         .header{
-        padding: 12px;
+        padding: 25px 50px 50px 25px;
         text-align: center;
         font-family: Arial;
         font-size: 12px;
+        border-radius: 25px;
         color: Black;
-        background-color: DodgerBlue;
+        background-color: #1569C7;
         width: 100%;
         }
+
+        .header img {
+        position:relative;
+        width: 200px;
+        height: 80px;
+        top: 0px;
+        right: 370px;
+        }
+
         .header h1 {    
           position: center;
           width: 100%;
-          top: 12px;
-          left: 6px;
+          text-align:center
         }
+
         .button {
           border: none;
           color: white;
@@ -37,26 +47,25 @@
           cursor: pointer;
         }
         .input {                  /* 4 Digit code Button*/
-          border: solid black 2px;
-          color: solid black;
-          width: 14%;
+          border: solid black 1.5px;
+          color: black;
+          width: 20%;
           padding: 18px 36px;
           text-align: center;
           border-radius: 25px;
           display: inline-block;
-          font-size: 20px;        /* Font size of date */
+          font-size: 16px;        /* Font size of date */
           position: relative;
-          margin: 4px 16px;
           transition-duration: 0.3s;
           cursor: pointer;
         }
         .input:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-          background-color: RoyalBlue;
-          color: solid black;
+          background-color: #2860DE;
+          color: black;
           border: 2px solid #008CBA
         }
         .button3 {
-          background-color: DodgerBlue;
+          background-color: #1569C7;
           border-radius: 25px;
           position: relative;
           width: 20%;
@@ -66,7 +75,7 @@
           border: 2px solid #008CBA;    /* Blue */
         }
         .button3:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-          background-color: RoyalBlue;
+          background-color: #2860DE;
           color: white;
           border: 2px solid #008CBA
         }
@@ -74,19 +83,19 @@
 </head>
 
 <div class= "header">
-    <img src="https://afcsushi.com/wp-content/uploads/2017/03/about_logo.png" alt="logo"/>       <!--- Importing AFC Logo -->
-    <h1>  Clock In/Clock Out </h1>
+    <img src="https://afcsushi.com/wp-content/uploads/2017/03/about_logo.png" alt="logo"/>       <!--- Importing AFC Logo -->    
+<h1> <b> Clock In/Clock Out </b></h1>
 </div> <br>
 
 <p><strong> Enter your 4 digit code, then press Clock In/Out button.</strong></p>
 
 <EditForm Model="employee" OnSubmit="HandleSubmit">
     <div>
-        <label for="IdNumber"><b>4 Digit Code</b></label>
-        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" maxlength = "4" ></InputNumber>
+        <label for="IdNumber"><b></b></label>
+        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" type="text" size="4" maxlength="4" minlength="4" placeholder="4 Digit Code" ></InputNumber>
     </div>
     <br>
-<button type="submit" class="button3">Clock in/Clock out</button>
+<button type="submit" class="button3"><b>Clock in/Clock out</b></button>
 </EditForm>
 
 @code{

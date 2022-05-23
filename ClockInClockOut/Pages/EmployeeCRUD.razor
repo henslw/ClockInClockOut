@@ -1,6 +1,5 @@
 ﻿@page "/EmployeesCRUD"
 @page "/EmployeesCRUD/{IdNumber:int}"
-@attribute [Authorize]
 @inject IEmployeeServices EmployeeService
 
 @if(idNumber == null){

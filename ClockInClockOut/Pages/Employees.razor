@@ -1,8 +1,88 @@
 ﻿@page "/Employees"
-@attribute [Authorize]
 @inject IEmployeeServices EmployeeService
 @inject NavigationManager NavigationManager
-<h3>Employees</h3>
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Add icon library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <style>
+
+.header{
+padding: 12px;
+text-align: center;
+font-family: Arial;
+font-size: 12px;
+/*#1569C7
+#2860DE
+*/
+color: Black;
+border-radius: 25px;
+background-color: #1569C7; 
+width: 100%;
+}
+
+
+.header h1 {
+  position: center;
+  width: 100%;
+  top: 12px;
+  left: 6px;
+}
+
+.btn-primary {
+  background-color: #1569C7;
+  color: black;
+  font-size: 16px;
+  padding: 20px;
+  position: relative;
+  left:0px;
+  border-radius: 25px;
+  text-align: center;
+  /*display: inline-block;*/
+  /*margin: 20px;*/
+  transition-duration: 0.3s
+        
+   }
+
+    /* Darker background on mouse-over */
+.btn-primary:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+  background-color: #2860DE;
+  border: 2px solid #008CBA;
+  color: white;
+  }
+
+
+  .pencil-primary {
+  background-color: #1569C7;
+  color: black;
+  font-size: 16px;
+  padding: 10px;
+  position: relative;
+  left:0px;
+  border-radius: 25px;
+  text-align: center;
+  /*display: inline-block;*/
+  /*margin: 20px;*/
+  transition-duration: 0.3s
+        
+   }
+
+    /* Darker background on mouse-over */
+.pencil-primary:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+  background-color: #2860DE;
+  border: 2px solid #008CBA;
+  color: white;
+  }
+
+</style>
+</head>
+
+<div class= "header">
+  <h1><b>Employees</b></h1>
+</div> <br>
+
 <table class="table">
     <thead>
         <tr>
@@ -22,7 +102,7 @@
                 <td>@employee.LastName</td>
                 <td>@employee.IsClockedIN</td>
                 <td>
-                    <button class="btn btn-primary" @onclick="(()=> ShowEmployee(employee.IdNumber))">
+                    <button class="btn pencil-primary" @onclick="(()=> ShowEmployee(employee.IdNumber))">
                         <i class="oi oi-pencil"></i>
 
                     </button>
@@ -31,7 +111,7 @@
         }
     </tbody>
 </table>
-<button class="btn btn-primary" @onclick="CreateNewEmployee">Create New Employee</button>
+<button class="btn btn-primary" @onclick="CreateNewEmployee"><b>Create New Employee</b></button>
 @code {
     protected override async Task OnInitializedAsync()
     {

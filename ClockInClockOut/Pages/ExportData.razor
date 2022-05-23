@@ -17,14 +17,14 @@
 
             input,
             .label {
-              margin: 20px 10px;
-              width: 50%;
-              border: 3px solid black;
+              margin: 20px;
+              width: 20%;
+              border: 1.5px solid black;
               padding: 20px;
               display: inline-block;
               border-radius: 25px;
               font-size: 16px;
-              width: 15%;          /* Font size of date */
+              width: 20%;          /* Font size of date */
               position: relative;
               text-align: center;
 
@@ -32,18 +32,20 @@
 
 
             .label:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-              background-color: RoyalBlue;
-              border: 2px solid #008CBA
+              background-color: #2860DE;
+              border: 2px solid #008CBA;
+            
             }
 
 
             .header{
             padding: 12px;
             text-align: center;
+            border-radius: 25px;
             font-family: Arial;
             font-size: 12px;
             color: Black;
-            background-color: DodgerBlue;
+            background-color: #1569C7;
             width: 100%;
             }
 
@@ -57,35 +59,37 @@
 
 
             .btnexportdata {
-              background-color: DodgerBlue;
+              background-color: #1569C7;
               color: black;
-              font-size: 24px;
+              font-size: 16px;
               cursor: pointer;
-              padding: 25px 50px 50px 25px;
-              position: center;
+              padding: 20px;
+              position: relative;
+              left:33px;
               border-radius: 25px;
-              text-align: relative;
+              text-align: center;
               display: inline-block;
-              margin: 2px 40px;
+              margin: 35px;
               transition-duration: 0.3s;
               float: left;
               table-layout:fixed;              /* Width of the buttons */ 
               border: none;    /* Blue */
-              width: 300px;
-              height: 40px;
+              width: 20%;
+             
             }
 
             /* Darker background on mouse-over */
-            .btn:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-              background-color: RoyalBlue;
-              border: 2px solid #008CBA
+            .btnexportdata:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+              background-color: #2860DE;
+              border: 2px solid #008CBA;
+              color: white;
             }
         </style>
     </head>
 
     <body>
         <div class= "header">
-          <h1>  Admin - Export Data </h1>
+          <h1> <b> Admin - Export Data </b></h1>
         </div> <br><br><br>
         <label for="start">From:</label>
 
@@ -100,13 +104,13 @@
                min="2020-01-01" max="2030-12-31">
 
         <div>
-          <button class="btnexportdata"><i class="far fa-clone"></i>Export
+          <button class="btnexportdata"><i class="far fa-clone"></i> <b> Export </b>
                 <a href="https://www.tacoma.uw.edu" Style = "text-decoration: none; color: black; width: 100% "> </a>
           </button>
         </div>
 
         <div>
-          <button class="btnexportdata"><i class="fa fa-trash"></i>Delete
+          <button class="btnexportdata"><i class="fa fa-trash"></i><b> Delete </b>
                 <a href="https://www.tacoma.uw.edu" Style = "text-decoration: none; color: black; width: 100% "></a>
           </button>
         </div>

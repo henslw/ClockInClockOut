@@ -12,7 +12,7 @@
 
         .label {
           display: block;
-          float: lrft;
+          float: left;
           font: 1rem 'Fira Sans', sans-serif;
 
         }
@@ -21,11 +21,11 @@
         .label {
           margin: 20px 10px;
           width: 50%;
-          border: 3px solid black;
+          border: 1.5px solid black;
           padding: 20px;
           border-radius: 25px;
           display: inline-block;
-          font-size: 16px;
+          font-size: 12px;
           width: 15%;          /* Font size of date */
           position: relative;
           text-align: center;
@@ -33,7 +33,7 @@
 
 
         .label:hover {                    
-          background-color: RoyalBlue;
+          background-color: #2860DE;
           border: 2px solid #008CBA
         }
 
@@ -43,8 +43,9 @@
         text-align: center;
         font-family: Arial;
         font-size: 12px;
+        border-radius: 25px;
         color: Black;
-        background-color: DodgerBlue;
+        background-color: #1569C7;
         width: 100%;
         }
 
@@ -59,7 +60,7 @@
 
         .name {                         /* Name button next to date */
           margin: 20px 20px;
-          border: none;
+          border: 1.5px solid black;
           padding: 40px;
           border-radius: 25px;
           display: inline-block;
@@ -69,34 +70,32 @@
         }
 
         .name:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-          background-color: RoyalBlue;
+          background-color: #2860DE;
           border: 2px solid #008CBA
         }
 
-        .input {                  /* 4 Digit code Button*/
-          border: black 2px;
+        .input {
+          border: solid black 1.5px;
           color: black;
-          width: 14%;
+          width: 20%;
           padding: 18px 36px;
           text-align: center;
           border-radius: 25px;
           display: inline-block;
-          font-size: 20px;        /* Font size of date */
+          font-size: 16px;       
           position: relative;
+          left:0px;
           margin: 4px 16px;
-          transition-duration: 0.3s;
-          cursor: pointer;
-        }
+         }
 
-
-        .input:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-          background-color: RoyalBlue;
-          color: solid black;
-          border: 2px solid #008CBA
-        }
-
+         .input:hover {                    /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+           background-color: lightskyblue;
+           border: 2px solid #008CBA;
+           color: white;
+         }
+/* CSS Of the go back button which is not required now
         .button1 {                            
-          background-color: DodgerBlue;   /* Style of the Go back button */ 
+          background-color: #1569C7;   
           color: black;
           font-size: 24px;
           cursor: pointer;
@@ -110,16 +109,17 @@
           float: left;
           table-layout:fixed;              
           border: none;
-          width: 15%;                   /* Blue */
+          width: 15%;                   
         }
 
-        .button1:hover {                      /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-          background-color: RoyalBlue;    /* Darker background on mouse-over */
+        .button1:hover {                    
+          background-color: #2860DE;   
           border: 2px solid #008CBA
         }
+*/
 
         .button3 {
-          background-color: DodgerBlue;
+          background-color: #1569C7;
           border-radius: 25px;
           position: relative;
           width: 20%;
@@ -130,7 +130,7 @@
         }
 
         .button3:hover {            /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-          background-color: RoyalBlue;
+          background-color: #2860DE;
           color: white;
           border: 2px solid #008CBA
         }
@@ -144,8 +144,8 @@
 
 
 <EditForm Model="employee" OnSubmit="HandleSubmit">
-        <label for="IdNumber"<b>4 Digit Code</b></label>
-        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" ></InputNumber>
+        <label for="IdNumber"<b></b></label>
+        <InputNumber id="IdNumber" type="text" size="4" maxlength="4" minlength="4" placeholder="4 Digit Code" @bind-Value="employee.IdNumber" class="input" ></InputNumber>
         <label for="FirstDateRange"><b>From:</b></label>
         <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="input"></InputDate>
         <label for="SecondDateRange"><b>To:</b></label>

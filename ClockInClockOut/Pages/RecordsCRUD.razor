@@ -1,6 +1,5 @@
 ﻿@page "/RecordsCRUD"
 @page "/RecordsCRUD/{ItemNumber:int}"
-@attribute [Authorize]
 @inject IRecordServices RecordServices
 
 @if (itemNumber == null)
