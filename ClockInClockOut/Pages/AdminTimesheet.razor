@@ -3,16 +3,106 @@
 @inject IRecordServices RecordServices
 @inject NavigationManager NavigationManager
 
-<h3>Admin-Timesheet</h3>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .header {
+            padding: 12px;
+            text-align: center;
+            font-family: Arial;
+            font-size: 12px;
+            color: Black;
+            border-radius: 25px;
+            background-color: #1569C7;
+            width: 100%;
+        }
 
-<EditForm Model="employee" OnSubmit="HandleSubmit">
-    <label for="IdNumber"<b>4 Digit Code:</b></label>
-    <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" placeholder = "type 0 to search all"></InputNumber>
-    <label for="FirstDateRange"><b>From:</b></label>
-    <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="input"></InputDate>
-    <label for="SecondDateRange"><b>To:</b></label>
-    <InputDate id="SecondDateRange" @bind-Value="SecondDateRange" class="input"></InputDate>
-</EditForm>
+            .header h1 {
+                position: center;
+                width: 100%;
+                top: 12px;
+                left: 6px;
+            }
+
+        .input { /* 4 Digit code Button*/
+            border: solid black 1.5px;
+            color: black;
+            width: 20%;
+            padding: 18px 36px;
+            text-align: center;
+            border-radius: 25px;
+            display: inline-block;
+            font-size: 16px; /* Font size of date */
+            position: relative;
+            transition-duration: 0.3s;
+            cursor: pointer;
+        }
+
+            .input:hover { /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+                color: black;
+                border: 2px solid #008CBA
+            }
+
+        .button3 {
+            background-color: lightskyblue;
+            border-radius: 25px;
+            position: relative;
+            width: 30%;
+            height: 80px;
+            table-layout: fixed;
+            color: black;
+            border: 2px solid lightskyblue; /* Blue */
+        }
+
+            .button3:hover { /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+                background-color: #2860DE;
+                color: white;
+                border: 2px solid #008CBA
+            }
+
+        .btn-primary {
+            background-color: #1569C7;
+            color: black;
+            padding: 0px;
+            position: relative;
+            left: 0%;
+            top: 0%;
+            height: 40px;
+            width: 40px;
+            border-radius: 25px;
+            text-align: center;
+            /*display: inline-block;*/
+            /*margin: 20px;*/
+            transition-duration: 0.3s
+        }
+            /* Darker background on mouse-over */
+            .btn-primary:hover { /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+                background-color: #2860DE;
+                border: solid #008CBA;
+                color: white;
+            }
+
+        div {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<div class="header">
+    <h1> <b>Admin - Timesheet</b></h1>
+</div>
+<br>
+<div>
+    <EditForm Model="employee" OnSubmit="HandleSubmit">
+        <label for="IdNumber"<b>Employee ID:&nbsp&nbsp&nbsp&nbsp </b></label>
+        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" placeholder="type 0 to search all"></InputNumber>
+        <label for="FirstDateRange"><b>&nbsp&nbsp&nbsp&nbspFrom:&nbsp&nbsp</b></label>
+        <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="input"></InputDate>
+        <label for="SecondDateRange"><b>&nbsp&nbsp&nbsp&nbspTo:&nbsp&nbsp</b></label>
+        <InputDate id="SecondDateRange" @bind-Value="SecondDateRange" class="input"></InputDate>
+    </EditForm>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -71,7 +161,7 @@
         }
     </tbody>
 </table>
-<button class="btn btn-primary" @onclick="CreateNewRecord">Create New Record</button>
+<button class="button3" @onclick="CreateNewRecord">Create New Record</button>
 
 @code {
     Employee employee = new Employee();

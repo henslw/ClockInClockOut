@@ -2,14 +2,86 @@
 @attribute [Authorize]
 @inject IEmployeeServices EmployeeService
 @inject NavigationManager NavigationManager
-<h3>Employees</h3>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .header {
+            padding: 12px;
+            text-align: center;
+            font-family: Arial;
+            font-size: 12px;
+            color: Black;
+            border-radius: 25px;
+            background-color: #1569C7;
+            width: 100%;
+        }
+
+            .header h1 {
+                position: center;
+                width: 100%;
+                top: 12px;
+                left: 6px;
+            }
+
+        .button3 {
+            background-color: lightskyblue;
+            border-radius: 25px;
+            position: relative;
+            width: 30%;
+            height: 80px;
+            table-layout: fixed;
+            color: black;
+            border: 2px solid lightskyblue; /* Blue */
+        }
+
+            .button3:hover { /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+                background-color: #2860DE;
+                color: white;
+                border: 2px solid #008CBA
+            }
+
+        .btn-primary {
+            background-color: #1569C7;
+            color: black;
+            padding: 0px;
+            position: relative;
+            left: 0%;
+            top: 0%;
+            height: 40px;
+            width: 40px;
+            border-radius: 25px;
+            text-align: center;
+            /*display: inline-block;*/
+            /*margin: 20px;*/
+            transition-duration: 0.3s
+        }
+            /* Darker background on mouse-over */
+            .btn-primary:hover { /* Use the :hover selector to change the style of the button when you move the mouse over it. */
+                background-color: #2860DE;
+                border: solid #008CBA;
+                color: white;
+            }
+
+        div {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<div class="header">
+    <h1> <b> Employees </b></h1>
+</div>
+<br>
+
 <table class="table">
     <thead>
         <tr>
-            <th>ID Number</th>
+            <th>Employee ID</th>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Clocked In</th>
+            <th>Clocked In Status</th>
         </tr>
     </thead>
 
@@ -31,7 +103,7 @@
         }
     </tbody>
 </table>
-<button class="btn btn-primary" @onclick="CreateNewEmployee">Create New Employee</button>
+<button class="button3" @onclick="CreateNewEmployee">Create New Employee</button>
 @code {
     protected override async Task OnInitializedAsync()
     {

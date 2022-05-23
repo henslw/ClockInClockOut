@@ -3,159 +3,148 @@
 @inject IRecordServices RecordServices
 @inject IJSRuntime jsRuntime
 
-<!DOCTYPE html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-
-        .alert {
-            padding: 20px;
-            background-color: #f44336; /* Red */
-            color: white;
-            margin-bottom: 15px;
-            width: 20%;
-        }
-
-        .closebtn {
-            margin-left: 15px;
-            color: white;
-            font-weight: bold;
-            float: right;
-            font-size: 22px;
-            line-height: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-
-            .closebtn:hover {
-                color: black;
-            }
-
         .header {
             padding: 12px;
             text-align: center;
             font-family: Arial;
             font-size: 12px;
+            border-radius: 25px;
             color: Black;
-            background-color: DodgerBlue;
+            background-color: #1569C7;
             width: 100%;
         }
+
+            .header img {
+                position: relative;
+                width: 200px;
+                height: 80px;
+                top: 0px;
+                right: 0px;
+            }
 
             .header h1 {
                 position: center;
                 width: 100%;
-                top: 12px;
-                left: 6px;
+                text-align: center
             }
 
-        .button {
-            border: none;
-            color: white;
-            width: 20%;
-            padding: 18px 36px;
+        .subheader {
+            padding: 5px 5px 5px 5px;
             text-align: center;
-            border-radius: 25px;
-            display: inline-block;
-            font-size: 16px;
-            position: relative;
-            margin: 4px 16px;
-            transition-duration: 0.3s;
-            cursor: pointer;
+            font-family: Arial;
+            font-size: 12px;
+            border-radius: 10px;
+            color: Black;
+            background-color: #1569C7;
+            width: 100%;
         }
 
         .input { /* 4 Digit code Button*/
-            border: solid black 2px;
-            color: solid black;
-            width: 60%;
+            border: solid black 1.5px;
+            color: black;
+            width: 50%;
             padding: 18px 36px;
             text-align: center;
             border-radius: 25px;
             display: inline-block;
-            font-size: 25px; /* Font size of date */
+            font-size: 16px; /* Font size of date */
             position: relative;
-            margin: 4px 16px;
             transition-duration: 0.3s;
             cursor: pointer;
-            height: 70px;
         }
 
             .input:hover { /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-                background-color: RoyalBlue;
-                color: solid black;
-                border: 2px solid #008CBA
+                color: black;
+                border: 2px solid black
             }
 
         .button3 {
-            background-color: DodgerBlue;
+            background-color: lightskyblue;
             border-radius: 25px;
             position: relative;
-            height: 70px;
+            width: 50%;
+            height: 80px;
             table-layout: fixed;
             color: black;
-            border: 2px solid #008CBA; /* Blue */
+            border: 2px solid lightskyblue; /* Blue */
         }
 
             .button3:hover { /* Use the :hover selector to change the style of the button when you move the mouse over it. */
-                background-color: RoyalBlue;
+                background-color: #2860DE;
                 color: white;
                 border: 2px solid #008CBA
+            }
+
+            div {
+                text-align: center;
             }
     </style>
 </head>
 
 <div class="header">
-    <img align="left" src="https://afcsushi.com/wp-content/uploads/2017/03/about_logo.png" alt="AFC logo" style="height:90px;width:200px" />       <!--- Importing AFC Logo -->
-    <br>
-    <h1>  Clock In/Clock Out </h1><br>
+    <img src="https://afcsushi.com/wp-content/uploads/2017/03/about_logo.png" alt="logo" />       <!--- Importing AFC Logo -->
+    <h1> <b> Time Clock </b></h1>
 </div>
-<br>
 
+<br><br>
 
-<table class="table" style="width:100%">
-    <td style="width:40%"> <!-- left side of UI is for clock in/out -->
-        <p><strong> Enter your 4 digit code, then press Clock In/Out button.</strong></p>
-        <EditForm Model="employee" OnValidSubmit="HandleSubmit">
-            <label for="IdNumber"><b>4 Digit Code</b></label>
-            <InputNumber type="number" id="IdNumber" @bind-Value="employee.IdNumber" class="input" placeholder="4 Digit Code" maxlength="4"></InputNumber>
-            <br>
-            <button type="submit" class="button3" style="width:70%">Clock in/Clock out</button>
+<table style="width:100%">
+    <td>
+        <EditForm Model="employee" OnSubmit="HandleSubmit">
+            <div>
+                <label for="IdNumber"><b>Employee ID &nbsp&nbsp</b></label>
+                
+                <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" placeholder="4 Digit Code"></InputNumber>
+            </div>
+            <br><br>
+            <button type="submit" class="button3"><b>Clock In/Clock Out</b></button>
         </EditForm>
     </td>
-    <td style="width 60%"> <!-- right side of UI is to display Today's Status-->
-        <h2><b>Today's Status</b></h2> <!-- shows today's clock in/out record-->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Clock In</th>
-                    <th>Clock Out</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var record in RecordServices.Records)
-                {
-                    <tr>
-                        @if (record.ClockInTime.Date == DateTime.Now.Date)
-                        {
-                            <td>@record.EmployeeName</td>
-                            <td>
-                                @record.ClockInTime
-                            </td>
-                            <td>
-                                @if (record.ClockOutTime != DateTime.MinValue)
-                                {
-                                    @record.ClockOutTime
-                                }
-                            </td>
+    <td>
+        <p><strong> Instruction</strong><br>1. Type your four digit employee ID<br>2. Press "Clock In/ Clock Out" button.</p>
+        <hr>
+        <p>**Confirm your clock in/out status below at "Today's Status"**</p>
 
-                        }
-                    </tr>
-                }
-            </tbody>
-        </table>
     </td>
+
+</table>
+<br><br><br>
+
+<div class="subheader"<h1><b>Today's Status</b></h1></div> <!-- shows today's clock in/out record-->
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Clock In</th>
+            <th>Clock Out</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in RecordServices.Records)
+        {
+            <tr>
+                @if (record.ClockInTime.Date == DateTime.Now.Date)
+                {
+                    <td>@record.EmployeeName</td>
+                    <td>
+                        @record.ClockInTime
+                    </td>
+                    <td>
+                        @if (record.ClockOutTime != DateTime.MinValue)
+                        {
+                            @record.ClockOutTime
+                        }
+                    </td>
+
+                }
+            </tr>
+        }
+    </tbody>
 </table>
 
 

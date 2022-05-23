@@ -3,6 +3,12 @@
 @attribute [Authorize]
 @inject IEmployeeServices EmployeeService
 
+<style>
+    .form-control{
+        width: 50%;
+    }
+</style>
+
 @if (idNumber == null)
 {
     <h3>Create a new employee</h3>
@@ -14,7 +20,7 @@ else
 
 <EditForm Model="employee" OnSubmit="HandleSubmit">
     <div>
-        <label for="IdNumber">Id Number</label>
+        <label for="IdNumber">Employee ID</label>
         <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="form-control"></InputNumber>
     </div>
     <div>

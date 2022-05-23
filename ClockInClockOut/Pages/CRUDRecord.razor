@@ -3,10 +3,14 @@
 @attribute [Authorize]
 @inject IRecordServices RecordServices
 @inject IEmployeeServices EmployeeServices
-
+<style>
+    .form-control {
+        width: 50%;
+    }
+</style>
 @if (itemNumber == null)
 {
-    <h3>Create a new Record</h3>
+    <h3>Create A New Record</h3>
 }
 else
 {
@@ -16,8 +20,12 @@ else
 
 <EditForm Model="record" OnSubmit="HandleSubmit">
     <div>
-        <label for="IdNumber">Id Number</label>
+        <label for="IdNumber">Employee ID</label>
         <InputNumber id="IdNumber" @bind-Value="record.IdNumber" class="form-control"></InputNumber>
+    </div>
+    <div>
+        <label for="Name">Employee Name</label>
+        <InputText id="Name" @bind-Value="record.EmployeeName" class="form-control" placeholder="Loaded from the Employee Database" readonly></InputText>
     </div>
     <div>
         <label for="ClockInTime">Clock In Time</label>
@@ -27,6 +35,10 @@ else
     <div>
         <label for="ClockOutTime">Clock Out Time</label>
         <InputDateTime id="ClockOutTime" @bind-Value="record.ClockOutTime" class="form-control"></InputDateTime>
+    </div>
+    <div>
+        <label for="Hours">Hours Worked</label>
+        <InputText id="Hours" @bind-Value="record.EmployeeName" class="form-control" placeholder="Auto-Calculated" readonly></InputText>
     </div>
     <br />
     <button type="submit" class="btn btn-primary">@btnText</button>
