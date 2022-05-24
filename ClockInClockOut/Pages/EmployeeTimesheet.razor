@@ -1,4 +1,5 @@
 ﻿@page "/EmployeeTimesheet"
+@using System.Linq
 @inject IEmployeeServices EmployeeService
 @inject IRecordServices RecordServices
 
@@ -118,7 +119,7 @@
 
     <tbody>
 
-        @foreach (var record in RecordServices.Records)
+        @foreach (var record in RecordServices.Records.OrderBy(record => record.ClockInTime))
         {
             @if (employee.IdNumber == record.IdNumber && FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockInTime)
             {

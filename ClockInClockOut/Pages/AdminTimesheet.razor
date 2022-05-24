@@ -1,5 +1,6 @@
 ﻿@page "/AdminTimesheet"
 @attribute [Authorize]
+@using System.Linq
 @inject IRecordServices RecordServices
 @inject NavigationManager NavigationManager
 
@@ -118,7 +119,7 @@
         <!--list record for filtering ID,From,To-->
         @if (employee.IdNumber > 0)
         {
-            @foreach (var record in RecordServices.Records)
+            @foreach (var record in RecordServices.Records.OrderBy(record => record.ClockInTime)) //sort by clock in date and time
             {
                 <tr>
                     @if (record.IdNumber == employee.IdNumber && FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockInTime)
@@ -140,7 +141,7 @@
         else
         {
             <!--list record for filtering From,To-->
-            @foreach (var record in RecordServices.Records)
+            @foreach (var record in RecordServices.Records.OrderBy(record => record.ClockInTime)) //sort by clock in date and time
             {
                 <tr>
                     @if (record.IdNumber != employee.IdNumber && FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockInTime)
