@@ -98,7 +98,7 @@
 
 <EditForm Model="employee" OnSubmit="HandleSubmit">
     <div>
-        <label for="IdNumber"<b>Employee ID&nbsp&nbsp</b></label>
+        <label for="IdNumber"><b>Employee ID&nbsp&nbsp</b></label>
         <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" placeholder="4 Digit Code"></InputNumber>
         <label for="FirstDateRange"><b>&nbsp&nbsp&nbsp&nbspFrom:&nbsp&nbsp</b></label>
         <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="input"></InputDate>
@@ -128,21 +128,36 @@
                     <td>@record.ClockInTime</td>
                     <td>@record.ClockOutTime</td>
                     <td>@Math.Round(record.TotalHoursWorked,2)</td>
+                    @AddHours(record.TotalHoursWorked)
                 </tr>
             }
         }
     </tbody>
 </table>
 
+<div>
+    <strong>Total Hours Worked:</strong>
+    <input class="input" type="number" value="@Math.Round(totalHours,2)" style="background-color:#ECECEC" readonly />
+</div>
+
 @code {
     Employee employee = new Employee();
     Record record = new Record();
     DateTime FirstDateRange = DateTime.Today.Date;
     DateTime SecondDateRange = DateTime.Today.Date;
+    double totalHours = 0;
+
+    private string AddHours(double hours)
+    {
+        totalHours += hours;
+        return "";
+    }
 
     async Task HandleSubmit()
     {
         await RecordServices.LoadRecord();
         Record record = new Record();
+        totalHours = 0;
     }
+
 }

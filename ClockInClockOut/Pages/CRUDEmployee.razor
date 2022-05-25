@@ -5,7 +5,7 @@
 
 <style>
     .form-control{
-        width: 50%;
+        width: 90%;
     }
 </style>
 
@@ -17,34 +17,55 @@ else
 {
     <h3>Edit "@employee.FirstName"</h3>
 }
+<table style="width:100%">
+    <td style="width:50%">
 
-<EditForm Model="employee" OnSubmit="HandleSubmit">
-    <div>
-        <label for="IdNumber">Employee ID</label>
-        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="form-control"></InputNumber>
-    </div>
-    <div>
-        <label for="FirstName">First Name</label>
-        <InputText id="FirstName" @bind-Value="employee.FirstName" class="form-control"></InputText>
-    </div>
-    <div>
-        <label for="LastName">Last Name</label>
-        <InputText id="LastName" @bind-Value="employee.LastName" class="form-control"></InputText>
-    </div>
-    <div>
-        <label for="IsClockedIN">ClockedIn</label>
-        <InputSelect id="IsClockedIN" @bind-Value="employee.IsClockedIN" class="form-control">
-            <option value="true">True</option>
-            <option value="false">False</option>
-        </InputSelect>
-    </div>
-    <br />
-    <button type="submit" class="btn btn-primary">@btnText</button>
-    @if (idNumber != null)
-    {
-        <button type="button" class="btn btn-danger" @onclick="DeleteEmployee">Delete Employee</button>
-    }
-</EditForm>
+        <EditForm Model="employee" OnSubmit="HandleSubmit">
+            @if (idNumber != null) //if editting an existing employee, cannot edit employee ID.
+            {
+                <div>
+                    <label for="IdNumber">Employee ID</label>
+                    <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="form-control" readonly></InputNumber>
+                </div>
+            }
+            else // adding employee ID 
+            {
+                <div>
+                    <label for="IdNumber">Employee ID</label>
+                    <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="form-control"></InputNumber>
+                </div>
+            }
+            <div>
+                <label for="FirstName">First Name</label>
+                <InputText id="FirstName" @bind-Value="employee.FirstName" class="form-control"></InputText>
+            </div>
+            <div>
+                <label for="LastName">Last Name</label>
+                <InputText id="LastName" @bind-Value="employee.LastName" class="form-control"></InputText>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">@btnText</button>
+            @if (idNumber != null)
+            {
+                <button type="button" class="btn btn-danger" @onclick="DeleteEmployee">Delete Employee</button>
+            }
+        </EditForm>
+    </td>
+    <td>
+        <div>
+            <strong>To Create an Employee</strong> <hr>
+            Employee ID: Enter four digit code <br>
+            - Must be UNIQUE <br>
+            - Value between 1000 - 9999<br>
+            First Name: first name of the employee <br>
+            Last Name: last name of the employee <br>
+            <br>
+            <strong>To Modify an Employee</strong><hr>
+            Employee ID cannot be modified.<br>
+            To change employee ID, delete the current employee, then create a new employee.
+        </div>
+    </td>
+</table>
 
 
 

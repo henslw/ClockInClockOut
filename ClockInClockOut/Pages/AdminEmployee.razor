@@ -77,11 +77,11 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th>Employee ID</th>
+        <tr >
+            <th >Employee ID</th>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Clocked In Status</th>
+            <th>Edit</th>
         </tr>
     </thead>
 
@@ -92,7 +92,6 @@
                 <td>@employee.IdNumber</td>
                 <td>@employee.FirstName</td>
                 <td>@employee.LastName</td>
-                <td>@employee.IsClockedIN</td>
                 <td>
                     <button class="btn btn-primary" @onclick="(()=> ShowEmployee((int)employee.IdNumber))">
                         <i class="oi oi-pencil"></i>

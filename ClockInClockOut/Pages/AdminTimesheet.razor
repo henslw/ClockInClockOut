@@ -96,7 +96,7 @@
 <br>
 <div>
     <EditForm Model="employee" OnSubmit="HandleSubmit">
-        <label for="IdNumber"<b>Employee ID:&nbsp&nbsp&nbsp&nbsp </b></label>
+        <label for="IdNumber"><b>Employee ID:&nbsp&nbsp&nbsp&nbsp </b></label>
         <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" placeholder="type 0 to search all"></InputNumber>
         <label for="FirstDateRange"><b>&nbsp&nbsp&nbsp&nbspFrom:&nbsp&nbsp</b></label>
         <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="input"></InputDate>
@@ -128,12 +128,13 @@
                         <td>@record.EmployeeName</td>
                         <td>@record.ClockInTime</td>
                         <td>@record.ClockOutTime</td>
-                        <td>@record.TotalHoursWorked</td>
+                        <td>@Math.Round(record.TotalHoursWorked,2)</td>
                         <td>
                             <button class="btn btn-primary" @onclick="(()=> ShowRecord(record.ItemNumber))">
                                 <i class="oi oi-pencil"></i>
                             </button>
                         </td>
+                        @AddHours(record.TotalHoursWorked)
                     }
                 </tr>
             }
@@ -162,6 +163,14 @@
         }
     </tbody>
 </table>
+@if (employee.IdNumber>0)
+{
+    <div>
+        <strong>Total Hours Worked:</strong>
+        <input class="input" type="number" value="@Math.Round(totalHours,2)" style="background-color:#ECECEC" readonly />
+    </div>
+}
+<br>
 <button class="button3" @onclick="CreateNewRecord">Create New Record</button>
 
 @code {
@@ -169,6 +178,7 @@
     Record record = new Record();
     DateTime FirstDateRange = DateTime.Today.Date;
     DateTime SecondDateRange = DateTime.Today.Date;
+    double totalHours;
 
     protected override async Task OnInitializedAsync()
     {
@@ -178,6 +188,7 @@
     {
         this.record = new Record();
         await RecordServices.LoadRecord();
+        totalHours = 0;
     }
     void ShowRecord(int ItemNumber)
     {
@@ -187,5 +198,10 @@
     void CreateNewRecord()
     {
         NavigationManager.NavigateTo("CRUDRecord");
+    }
+    private string AddHours(double hours)
+    {
+        totalHours += hours;
+        return "";
     }
 }
