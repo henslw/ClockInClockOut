@@ -25,7 +25,7 @@ else
     </div>
     <div>
         <label for="Name">Employee Name</label>
-        <InputText id="Name" @bind-Value="record.EmployeeName" class="form-control" placeholder="Loaded from the Employee Database" readonly></InputText>
+        <Input class="form-control" value="Loaded from the Employee Database" readonly>
     </div>
     <div>
         <label for="ClockInTime">Clock In Time</label>
@@ -38,7 +38,7 @@ else
     </div>
     <div>
         <label for="Hours">Hours Worked</label>
-        <InputText id="Hours" @bind-Value="record.EmployeeName" class="form-control" placeholder="Auto-Calculated" readonly></InputText>
+        <Input class="form-control" value="Auto-Calculated" readonly>
     </div>
     <br />
     <button type="submit" class="btn btn-primary">@btnText</button>
