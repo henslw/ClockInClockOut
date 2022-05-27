@@ -2,9 +2,10 @@
 @page "/CRUDEmployee/{IdNumber:int}"
 @attribute [Authorize]
 @inject IEmployeeServices EmployeeService
+@inject IJSRuntime jsRuntime
 
 <style>
-    .form-control{
+    .form-control {
         width: 90%;
     }
 </style>
@@ -28,7 +29,7 @@ else
                     <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="form-control" readonly></InputNumber>
                 </div>
             }
-            else // adding employee ID 
+            else // adding employee ID
             {
                 <div>
                     <label for="IdNumber">Employee ID</label>
@@ -94,18 +95,48 @@ else
         }
 
     }
-
+    bool DupID = false;
+    bool RangeID = false;
     async Task HandleSubmit()
     {
-        if (idNumber == null)
+            if (employee.IdNumber < 1000 || employee.IdNumber > 9999)
+            {
+                await jsRuntime.InvokeVoidAsync("alert", "The Employee ID must have four digit number. Please enter a value between 1000 and 9999.");
+                RangeID = true;
+            }
+        foreach (var employee2 in EmployeeService.Employees)
         {
-            await EmployeeService.CreateEmployee(employee);
+
+            if (employee2.IdNumber == employee.IdNumber)
+            {
+                //employee id duplicate
+                await jsRuntime.InvokeVoidAsync("alert", "The Employee ID you enterd was already in the system. Please enter a new unique ID.");
+                DupID = true;
+            }
+
+
+        }
+        if (DupID == false && RangeID == false )
+        {
+
+            if (idNumber == null)
+            {
+                await EmployeeService.CreateEmployee(employee);
+            }
+            else
+            {
+                await EmployeeService.UpdateEmployee(employee, (int)idNumber);
+            }
         }
         else
         {
-            await EmployeeService.UpdateEmployee(employee, (int)idNumber);
+            this.employee = new Employee();
+            this.employee.IdNumber = 0;
+            RangeID = false;
+            DupID = false;
         }
     }
+
 
     async Task DeleteEmployee()
     {
