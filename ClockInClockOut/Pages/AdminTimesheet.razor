@@ -29,7 +29,7 @@
         .input { /* 4 Digit code Button*/
             border: solid black 1.5px;
             color: black;
-            width: 20%;
+            width: 15%;
             padding: 18px 36px;
             text-align: center;
             border-radius: 25px;
@@ -96,12 +96,13 @@
 <br>
 <div>
     <EditForm Model="employee" OnSubmit="HandleSubmit">
-        <label for="IdNumber"><b>Employee ID:&nbsp&nbsp&nbsp&nbsp </b></label>
-        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" placeholder="type 0 to search all"></InputNumber>
         <label for="FirstDateRange"><b>&nbsp&nbsp&nbsp&nbspFrom:&nbsp&nbsp</b></label>
         <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="input"></InputDate>
         <label for="SecondDateRange"><b>&nbsp&nbsp&nbsp&nbspTo:&nbsp&nbsp</b></label>
         <InputDate id="SecondDateRange" @bind-Value="SecondDateRange" class="input"></InputDate>
+        <label for="IdNumber"><b>&nbsp&nbsp&nbsp&nbsp Employee ID:&nbsp&nbsp&nbsp&nbsp </b></label>
+        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" placeholder="type 0 to search all"></InputNumber>
+
     </EditForm>
 </div>
 <table class="table">
@@ -116,6 +117,7 @@
     </thead>
 
     <tbody>
+        @ResetTotalHours()
         <!--list record for filtering ID,From,To-->
         @if (employee.IdNumber > 0)
         {
@@ -163,7 +165,7 @@
         }
     </tbody>
 </table>
-@if (employee.IdNumber>0)
+@if (employee.IdNumber > 0)
 {
     <div>
         <strong>Total Hours Worked:</strong>
@@ -184,6 +186,19 @@
     {
         await RecordServices.LoadRecord();
     }
+
+    private string AddHours(double hours)
+    {
+        totalHours += hours;
+        return "";
+    }
+
+    private string ResetTotalHours()
+    {
+        totalHours = 0;
+        return "";
+    }
+
     async Task HandleSubmit()
     {
         this.record = new Record();
@@ -198,10 +213,5 @@
     void CreateNewRecord()
     {
         NavigationManager.NavigateTo("CRUDRecord");
-    }
-    private string AddHours(double hours)
-    {
-        totalHours += hours;
-        return "";
     }
 }

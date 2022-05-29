@@ -95,22 +95,19 @@
 </div>
 <br>
 
-
-
 <EditForm Model="employee" OnSubmit="HandleSubmit">
     <div>
-        <label for="IdNumber"><b>Employee ID&nbsp&nbsp</b></label>
-        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" placeholder="4 Digit Code"></InputNumber>
         <label for="FirstDateRange"><b>&nbsp&nbsp&nbsp&nbspFrom:&nbsp&nbsp</b></label>
         <InputDate id="FirstDateRange" @bind-Value="FirstDateRange" class="input"></InputDate>
         <label for="SecondDateRange"><b>&nbsp&nbsp&nbsp&nbspTo:&nbsp&nbsp</b></label>
         <InputDate id="SecondDateRange" @bind-Value="SecondDateRange" class="input"></InputDate>
+        <label for="IdNumber"><b>&nbsp&nbsp&nbsp&nbsp Employee ID&nbsp&nbsp</b></label>
+        <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" placeholder="4 Digit Code"></InputNumber>
         <button type="button" class="button3" @onclick="ResetEmployeeID" style="margin:0px 0px 0px 30px"><b>Clear</b></button>
         <br><br>
         <strong>Press "Clear" to clear search history</strong>
     </div>
 </EditForm>
-
 <br>
 <table class="table">
     <thead>
@@ -121,9 +118,8 @@
             <th>Hours Worked</th>
         </tr>
     </thead>
-
     <tbody>
-
+        @ResetTotalHours()
         @foreach (var record in RecordServices.Records.OrderBy(record => record.ClockInTime))
         {
             @if (employee.IdNumber == record.IdNumber && FirstDateRange <= record.ClockInTime && SecondDateRange.AddDays(1) >= record.ClockInTime)
@@ -139,7 +135,6 @@
         }
     </tbody>
 </table>
-
 <div>
     <strong>Total Hours Worked:</strong>
     <input class="input" type="number" value="@Math.Round(totalHours,2)" style="background-color:#ECECEC" readonly />
@@ -151,7 +146,7 @@
     Record record = new Record();
     DateTime FirstDateRange = DateTime.Today.Date;
     DateTime SecondDateRange = DateTime.Today.Date;
-    double totalHours = 0;
+    double totalHours;
 
     private string AddHours(double hours)
     {
@@ -159,17 +154,21 @@
         return "";
     }
 
-    async Task HandleSubmit()
+    private string ResetTotalHours()
     {
-        await RecordServices.LoadRecord();
-        Record record = new Record();
         totalHours = 0;
+        return "";
     }
 
     async Task ResetEmployeeID()
     {
         employee.IdNumber = 0;
-        totalHours = 0;
     }
 
+    async Task HandleSubmit()
+    {
+        totalHours = 0;
+        await RecordServices.LoadRecord();
+        Record record = new Record();
+    }
 }
