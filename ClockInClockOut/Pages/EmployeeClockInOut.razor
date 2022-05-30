@@ -79,9 +79,9 @@
                 border: 2px solid #008CBA
             }
 
-            div {
-                text-align: center;
-            }
+        div {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -90,14 +90,15 @@
     <h1> <b> Time Clock </b></h1>
 </div>
 
-<br><br>
+<br>
+<br>
 
 <table style="width:100%">
     <td>
         <EditForm Model="employee" OnSubmit="HandleSubmit">
             <div>
                 <label for="IdNumber"><b>Employee ID &nbsp&nbsp</b></label>
-                
+
                 <InputNumber id="IdNumber" @bind-Value="employee.IdNumber" class="input" placeholder="4 Digit Code"></InputNumber>
             </div>
             <br><br>
@@ -105,16 +106,20 @@
         </EditForm>
     </td>
     <td>
-        <p><strong> Instruction</strong><hr>
-        1. Type your four digit employee ID<br>
-        2. Press "Clock In/ Clock Out" button.<br>
-        If you forgot to clock in/out, contact the store manager for time adjustment.</p>
+        <p>
+            <strong> Instruction</strong><hr>
+            1. Type your four digit employee ID<br>
+            2. Press "Clock In/ Clock Out" button.<br>
+            If you forgot to clock in/out, contact the store manager for time adjustment.
+        </p>
         <hr>
         <p>**Confirm your clock in/out status below at "Today's Status"**</p>
     </td>
 
 </table>
-<br><br><br>
+<br>
+<br>
+<br>
 
 <div class="subheader"><h1><b>Today's Status</b></h1></div> <!-- shows today's clock in/out record-->
 
@@ -217,6 +222,9 @@
     async Task ClockOUTRecord(Employee employee)
     {
 
+        // intialized boolen for alert if statment
+        bool NotClocked = true;
+
         foreach (var record in RecordServices.Records)
         {
             if (record.ClockInTime.Date == DateTime.Today.Date && record.IdNumber == employee.IdNumber && record.ClockOutTime == DateTime.MinValue)
@@ -234,12 +242,23 @@
 
                 await EmployeeService.UpdateEmployee2(employee, employee.IdNumber);
                 await RecordServices.UpdateRecord2(record1, ItemNum);
+                NotClocked = false;
             }
+
             else
             {
-                // do nothing
+                //do nothing
             }
         }
+        //If employee forgets to clock out sets their status back to false and gives them alert
+        if (NotClocked == true)
+        {
 
+            employee.IsClockedIN = false;
+
+            //alerts the employee they have a record where they did not clock out
+            await jsRuntime.InvokeVoidAsync("alert", "You have not clocked out from your last shift. \n\nPlease clock in again, and contact your manager to fix your previous shifts clock out time.");
+        }
+        await EmployeeService.UpdateEmployee2(employee, employee.IdNumber);
     }
 }
